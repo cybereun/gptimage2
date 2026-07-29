@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { Copy, Check, Star, MessageSquareText } from 'lucide-react';
+import { Copy, Check, Star, AlertTriangle } from 'lucide-react';
 
-export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked, onToggleBookmark }) {
+export default function PromptCard({ 
+  promptItem, 
+  onSelectPrompt, 
+  onCopyPrompt,
+  isBookmarked,
+  onToggleBookmark
+}) {
   const [copied, setCopied] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleCopy = (e) => {
     e.stopPropagation();
     navigator.clipboard.writeText(promptItem.prompt);
     setCopied(true);
-    if (onCopy) onCopy(promptItem.prompt);
+    if (onCopyPrompt) onCopyPrompt(promptItem.prompt);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -19,200 +24,199 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
     if (onToggleBookmark) onToggleBookmark(promptItem.id);
   };
 
-  const categoryGradients = [
-    'linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(59,130,246,0.2) 100%)',
-    'linear-gradient(135deg, rgba(6,182,212,0.3) 0%, rgba(139,92,246,0.2) 100%)',
-    'linear-gradient(135deg, rgba(236,72,153,0.3) 0%, rgba(139,92,246,0.2) 100%)',
-    'linear-gradient(135deg, rgba(34,197,94,0.3) 0%, rgba(59,130,246,0.2) 100%)'
-  ];
-
-  const hash = promptItem.title ? promptItem.title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
-  const gradientBg = categoryGradients[hash % categoryGradients.length];
-
-  const hasValidImage = promptItem.imageUrl && promptItem.imageUrl.trim().length > 0 && !imgError;
+  const isNoImageCategory = promptItem.category === '⚠️ 이미지 없음 (작업용)';
+  const hasValidImage = !imageError && promptItem.imageUrl && promptItem.imageUrl.trim().length > 0;
 
   return (
     <div 
-      onClick={() => onSelect(promptItem)}
-      className="glass-panel glass-panel-hover" 
+      className="glass-panel card-hover"
+      onClick={() => onSelectPrompt(promptItem)}
       style={{
         borderRadius: 'var(--radius-lg)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         cursor: 'pointer',
+        height: '100%',
         position: 'relative',
-        minHeight: '320px'
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        border: isNoImageCategory ? '1px solid rgba(245, 158, 11, 0.5)' : '1px solid var(--glass-border)'
       }}
     >
+      {/* Work Number Badge if '⚠️ 이미지 없음 (작업용)' */}
+      {isNoImageCategory && promptItem.workNumber && (
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          zIndex: 5,
+          background: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+          color: '#ffffff',
+          fontWeight: '900',
+          fontSize: '0.85rem',
+          padding: '0.25rem 0.65rem',
+          borderRadius: 'var(--radius-full)',
+          boxShadow: '0 4px 12px rgba(245, 158, 11, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.3rem'
+        }}>
+          <AlertTriangle size={14} />
+          <span>NO. #{promptItem.workNumber}</span>
+        </div>
+      )}
+
+      {/* Card Image Header */}
       <div style={{
         position: 'relative',
         width: '100%',
-        paddingTop: hasValidImage ? '65%' : '42%',
-        background: gradientBg,
-        overflow: 'hidden',
-        transition: 'padding-top 0.3s ease'
+        height: '190px',
+        backgroundColor: '#0a0d14',
+        overflow: 'hidden'
       }}>
         {hasValidImage ? (
           <img
             src={promptItem.imageUrl}
             alt={promptItem.title}
-            loading="lazy"
-            decoding="async"
-            onLoad={() => setImgLoaded(true)}
-            onError={() => setImgError(true)}
+            onError={() => setImageError(true)}
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              opacity: imgLoaded ? 1 : 0,
-              transition: 'opacity 0.3s ease'
+              transition: 'transform 0.5s ease'
             }}
-            className="card-image"
+            loading="lazy"
           />
         ) : (
           <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
             width: '100%',
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#f3f4f6',
+            background: 'linear-gradient(135deg, #1e1b4b, #311042)',
+            color: '#fbbf24',
             padding: '1rem',
-            textAlign: 'center',
-            background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)'
+            textAlign: 'center'
           }}>
-            <MessageSquareText size={28} style={{ color: 'var(--accent-cyan)', marginBottom: '0.4rem', opacity: 0.85 }} />
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '500' }}>
-              GPT-Image2 Text Prompt
-            </span>
+            <div style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1px' }}>
+              #{promptItem.workNumber || '1'}
+            </div>
+            <div style={{ fontSize: '0.8rem', fontWeight: '700', opacity: 0.9 }}>
+              ⚠️ 이미지 없음 (작업용)
+            </div>
           </div>
         )}
 
+        {/* Category Tag Overlay */}
         <div style={{
           position: 'absolute',
-          top: '0.75rem',
-          left: '0.75rem',
-          background: 'rgba(9, 10, 15, 0.8)',
+          bottom: '10px',
+          left: '10px',
+          background: 'rgba(9, 10, 15, 0.75)',
           backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-          padding: '0.25rem 0.65rem',
+          border: '1px solid var(--glass-border)',
           borderRadius: 'var(--radius-full)',
-          fontSize: '0.75rem',
-          fontWeight: '500',
+          padding: '0.2rem 0.65rem',
+          fontSize: '0.72rem',
+          fontWeight: '600',
           color: '#e2e8f0',
-          maxWidth: '180px',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
+          zIndex: 2
         }}>
           {promptItem.category}
         </div>
 
-        {/* Top Right Action Button (Bookmark only) */}
-        <div style={{
-          position: 'absolute',
-          top: '0.75rem',
-          right: '0.75rem',
-          display: 'flex',
-          gap: '0.4rem',
-          zIndex: 5
-        }}>
-          <button
-            onClick={handleBookmark}
-            style={{
-              background: isBookmarked ? 'rgba(234, 179, 8, 0.3)' : 'rgba(9, 10, 15, 0.65)',
-              border: isBookmarked ? '1px solid rgba(234, 179, 8, 0.6)' : '1px solid rgba(255, 255, 255, 0.12)',
-              borderRadius: '50%',
-              width: '32px',
-              height: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: isBookmarked ? '#facc15' : 'var(--text-muted)'
-            }}
-            title="즐겨찾기"
-          >
-            <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
-          </button>
-        </div>
+        {/* Bookmark Button */}
+        <button
+          onClick={handleBookmark}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            background: 'rgba(9, 10, 15, 0.65)',
+            backdropFilter: 'blur(6px)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '32px',
+            height: '32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: isBookmarked ? '#facc15' : '#94a3b8',
+            cursor: 'pointer',
+            zIndex: 3,
+            transition: 'transform 0.2s ease'
+          }}
+          title={isBookmarked ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+        >
+          <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
+        </button>
       </div>
 
+      {/* Card Content Body */}
       <div style={{
-        padding: '1.15rem',
+        padding: '1rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.75rem',
-        flex: 1
+        flex: 1,
+        justifyContent: 'space-between',
+        gap: '0.75rem'
       }}>
-        <h3 style={{
-          fontSize: '1rem',
-          fontWeight: '600',
-          lineHeight: 1.35,
-          color: 'var(--text-main)',
-          display: '-webkit-box',
-          WebkitLineClamp: 1,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden'
-        }}>
-          {promptItem.title}
-        </h3>
+        <div>
+          <h3 style={{
+            fontSize: '0.98rem',
+            fontWeight: '700',
+            color: 'var(--text-main)',
+            marginBottom: '0.4rem',
+            lineHeight: '1.35',
+            display: '-webkit-box',
+            WebkitLineClamp: 1,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden'
+          }}>
+            {promptItem.title}
+          </h3>
 
-        <p style={{
-          fontSize: '0.84rem',
-          color: 'var(--text-muted)',
-          lineHeight: 1.5,
-          display: '-webkit-box',
-          WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-          background: 'rgba(0, 0, 0, 0.3)',
-          padding: '0.6rem 0.75rem',
-          borderRadius: 'var(--radius-sm)',
-          border: '1px solid rgba(255, 255, 255, 0.05)',
-          fontFamily: 'JetBrains Mono, monospace'
-        }}>
-          {promptItem.prompt || '(미리보기 프롬프트 없음)'}
-        </p>
+          <p style={{
+            fontSize: '0.82rem',
+            color: 'var(--text-muted)',
+            lineHeight: '1.5',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            fontFamily: 'JetBrains Mono, monospace'
+          }}>
+            {promptItem.prompt}
+          </p>
+        </div>
 
+        {/* Bottom Action Footer */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginTop: 'auto',
-          paddingTop: '0.5rem'
+          paddingTop: '0.65rem',
+          borderTop: '1px solid rgba(255, 255, 255, 0.06)'
         }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
-            1-Click Copy
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)' }}>
+            {isNoImageCategory ? `작업 번호 #${promptItem.workNumber}` : (promptItem.tags ? promptItem.tags[0] : 'GPT-Image2')}
           </span>
 
           <button
             onClick={handleCopy}
             className={copied ? "btn-primary" : "btn-secondary"}
             style={{
-              padding: '0.4rem 0.75rem',
-              fontSize: '0.8rem',
+              padding: '0.3rem 0.65rem',
+              fontSize: '0.75rem',
               borderRadius: 'var(--radius-md)'
             }}
           >
             {copied ? (
-              <>
-                <Check size={14} />
-                <span>복사됨!</span>
-              </>
+              <><Check size={13} /><span>복사됨</span></>
             ) : (
-              <>
-                <Copy size={14} />
-                <span>프롬프트 복사</span>
-              </>
+              <><Copy size={13} /><span>복사</span></>
             )}
           </button>
         </div>
