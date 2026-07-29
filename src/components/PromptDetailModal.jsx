@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Copy, Check, Star, Save, Trash2, Key, Unlock } from 'lucide-react';
+import { X, Copy, Check, Star, Save, Trash2, Key, Unlock, Link, Upload } from 'lucide-react';
 
 export default function PromptDetailModal({ 
   promptItem, 
@@ -17,6 +17,7 @@ export default function PromptDetailModal({
   const [editedTitle, setEditedTitle] = useState(promptItem ? promptItem.title : '');
   const [editedCategory, setEditedCategory] = useState(promptItem ? promptItem.category : '');
   const [editedPrompt, setEditedPrompt] = useState(promptItem ? promptItem.prompt : '');
+  const [editedImageUrl, setEditedImageUrl] = useState(promptItem ? promptItem.imageUrl : '');
   const [isSavedNotice, setIsSavedNotice] = useState(false);
 
   useEffect(() => {
@@ -24,12 +25,14 @@ export default function PromptDetailModal({
       setEditedTitle(promptItem.title || '');
       setEditedCategory(promptItem.category || '');
       setEditedPrompt(promptItem.prompt || '');
+      setEditedImageUrl(promptItem.imageUrl || '');
     }
   }, [promptItem]);
 
   if (!promptItem) return null;
 
   const categories = [
+    "⚠️ 이미지 없음 (작업용)",
     "👩‍🦰 인물 사진 & 포트레이트",
     "🎨 애니메이션 & 만화 일러스트",
     "📋 브랜딩 & 디자인 가이드보드",
@@ -40,8 +43,7 @@ export default function PromptDetailModal({
     "🏞️ 자연 & 풍경 & 스트리트",
     "🎬 시네마틱 & 영화 비주얼",
     "🏛️ 건축 & 인테리어 공간",
-    "✨ 아트 & 스페셜 갤러리",
-    "⚠️ 이미지 없음 (작업용)"
+    "✨ 아트 & 스페셜 갤러리"
   ];
 
   const handleCopy = () => {
@@ -60,7 +62,8 @@ export default function PromptDetailModal({
     onUpdatePrompt(promptItem.id, {
       title: editedTitle.trim(),
       category: editedCategory,
-      prompt: editedPrompt.trim()
+      prompt: editedPrompt.trim(),
+      imageUrl: editedImageUrl.trim()
     });
 
     setIsSavedNotice(true);
@@ -74,7 +77,22 @@ export default function PromptDetailModal({
     }
   };
 
-  const hasValidImage = promptItem.imageUrl && promptItem.imageUrl.trim().length > 0;
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 8 * 1024 * 1024) {
+        alert('이미지 파일 크기는 8MB 이하이어야 합니다.');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setEditedImageUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const hasValidImage = editedImageUrl && editedImageUrl.trim().length > 0;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -83,14 +101,15 @@ export default function PromptDetailModal({
         onClick={(e) => e.stopPropagation()}
         style={{
           width: '100%',
-          maxWidth: '750px',
+          maxWidth: '780px',
           borderRadius: 'var(--radius-lg)',
           overflow: 'hidden',
           display: 'flex',
           flexDirection: 'column',
           maxHeight: '90vh',
           background: '#0d111a',
-          border: isAdminMode ? '2px solid #f59e0b' : '1px solid var(--glass-border)'
+          border: isAdminMode ? '2px solid #f59e0b' : '1px solid var(--glass-border)',
+          boxShadow: isAdminMode ? '0 0 25px rgba(245, 158, 11, 0.3)' : 'none'
         }}
       >
         {/* Modal Header */}
@@ -100,7 +119,7 @@ export default function PromptDetailModal({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: isAdminMode ? 'rgba(245, 158, 11, 0.15)' : 'rgba(9, 10, 15, 0.6)'
+          background: isAdminMode ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(239, 68, 68, 0.2))' : 'rgba(9, 10, 15, 0.6)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <span style={{
@@ -111,19 +130,20 @@ export default function PromptDetailModal({
               borderRadius: 'var(--radius-full)',
               fontWeight: '600'
             }}>
-              {promptItem.category}
+              {editedCategory}
             </span>
 
             {isAdminMode && (
               <span style={{
-                fontSize: '0.75rem',
+                fontSize: '0.8rem',
                 background: '#f59e0b',
                 color: '#000',
-                padding: '0.2rem 0.6rem',
+                padding: '0.25rem 0.75rem',
                 borderRadius: 'var(--radius-full)',
-                fontWeight: '800'
+                fontWeight: '900',
+                boxShadow: '0 2px 8px rgba(245, 158, 11, 0.5)'
               }}>
-                ✏️ 수정 가능 (관리자 모드)
+                ✏️ 관리자 수정 모드 활성화 중
               </span>
             )}
           </div>
@@ -134,21 +154,22 @@ export default function PromptDetailModal({
               <button
                 onClick={onOpenAdminModal}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.06)',
-                  border: '1px solid var(--glass-border)',
+                  background: 'rgba(245, 158, 11, 0.2)',
+                  border: '1px solid #f59e0b',
                   color: '#facc15',
-                  padding: '0.35rem 0.6rem',
+                  padding: '0.4rem 0.75rem',
                   borderRadius: 'var(--radius-md)',
                   cursor: 'pointer',
-                  fontSize: '0.8rem',
+                  fontSize: '0.82rem',
+                  fontWeight: '700',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.3rem'
+                  gap: '0.4rem'
                 }}
-                title="수정/삭제 비밀번호 입력"
+                title="수정/삭제 비밀번호 1234 입력"
               >
                 <Key size={15} />
-                <span>🔑</span>
+                <span>🔑 비밀번호 입력 (수정 모드)</span>
               </button>
             ) : (
               <button
@@ -157,19 +178,19 @@ export default function PromptDetailModal({
                   background: '#f59e0b',
                   border: 'none',
                   color: '#000',
-                  padding: '0.35rem 0.65rem',
+                  padding: '0.4rem 0.75rem',
                   borderRadius: 'var(--radius-md)',
                   cursor: 'pointer',
-                  fontSize: '0.78rem',
-                  fontWeight: '700',
+                  fontSize: '0.82rem',
+                  fontWeight: '800',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.3rem'
+                  gap: '0.35rem'
                 }}
-                title="수정모드 종료 (일반 복귀)"
+                title="수정모드 종료 (일반 읽기 모드 복귀)"
               >
-                <Unlock size={14} />
-                <span>복귀</span>
+                <Unlock size={15} />
+                <span>[복귀] 완료</span>
               </button>
             )}
 
@@ -190,41 +211,106 @@ export default function PromptDetailModal({
 
         {/* Modal Body */}
         <div style={{ padding: '1.5rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {/* Image Display */}
-          {hasValidImage && (
-            <div style={{
-              width: '100%',
-              maxHeight: '380px',
-              borderRadius: 'var(--radius-md)',
-              overflow: 'hidden',
-              background: '#000',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <img
-                src={promptItem.imageUrl}
-                alt={promptItem.title}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxHeight: '380px',
-                  objectFit: 'contain'
-                }}
-              />
-            </div>
-          )}
+          
+          {/* Image Display & Admin Image Editor */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {hasValidImage && (
+              <div style={{
+                width: '100%',
+                maxHeight: '340px',
+                borderRadius: 'var(--radius-md)',
+                overflow: 'hidden',
+                background: '#000',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: isAdminMode ? '2px dashed #f59e0b' : '1px solid var(--glass-border)'
+              }}>
+                <img
+                  src={editedImageUrl}
+                  alt={editedTitle}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '340px',
+                    objectFit: 'contain'
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Admin Image URL / File Change Section */}
+            {isAdminMode && (
+              <div style={{
+                padding: '1rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'rgba(245, 158, 11, 0.1)',
+                border: '1px solid rgba(245, 158, 11, 0.4)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.65rem'
+              }}>
+                <label style={{ fontSize: '0.85rem', fontWeight: '700', color: '#fbbf24', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Link size={16} /> 🖼️ 이미지 변경 (URL 경로 입력 또는 컴퓨터 파일 업로드)
+                </label>
+                
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input
+                    type="text"
+                    value={editedImageUrl}
+                    onChange={(e) => setEditedImageUrl(e.target.value)}
+                    placeholder="이미지 URL 주소 입력 (예: /img/img_no_image_1.png 또는 외부 링크)"
+                    style={{
+                      flex: 1,
+                      padding: '0.6rem 0.85rem',
+                      borderRadius: 'var(--radius-md)',
+                      background: 'rgba(0, 0, 0, 0.5)',
+                      border: '1px solid #f59e0b',
+                      color: '#fff',
+                      fontSize: '0.85rem',
+                      outline: 'none'
+                    }}
+                  />
+
+                  <label style={{
+                    padding: '0.6rem 1rem',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'rgba(139, 92, 246, 0.3)',
+                    border: '1px solid var(--accent-purple)',
+                    color: '#c084fc',
+                    fontSize: '0.85rem',
+                    fontWeight: '700',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    <Upload size={15} />
+                    <span>파일 선택</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Title Area */}
           <div>
             <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
-              프롬프트 제목 {isAdminMode && <span style={{ color: '#f59e0b' }}>(수정 가능)</span>}
+              프롬프트 제목 {isAdminMode && <span style={{ color: '#f59e0b', fontWeight: '700' }}>(수정 가능)</span>}
             </label>
             {isAdminMode ? (
               <input
                 type="text"
                 value={editedTitle}
                 onChange={(e) => setEditedTitle(e.target.value)}
+                placeholder="제목을 입력하세요..."
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem',
@@ -247,15 +333,15 @@ export default function PromptDetailModal({
           {/* Category Selector */}
           {isAdminMode && (
             <div>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
-                카테고리 변경
+              <label style={{ display: 'block', fontSize: '0.8rem', color: '#f59e0b', fontWeight: '700', marginBottom: '0.3rem' }}>
+                카테고리 변경 (선택)
               </label>
               <select
                 value={editedCategory}
                 onChange={(e) => setEditedCategory(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.6rem 1rem',
+                  padding: '0.65rem 1rem',
                   borderRadius: 'var(--radius-md)',
                   background: '#121621',
                   border: '1px solid #f59e0b',
@@ -275,7 +361,7 @@ export default function PromptDetailModal({
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
               <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                GPT-Image2 프롬프트 문구 {isAdminMode && <span style={{ color: '#f59e0b' }}>(수정 가능)</span>}
+                GPT-Image2 프롬프트 문구 {isAdminMode && <span style={{ color: '#f59e0b', fontWeight: '700' }}>(수정 가능)</span>}
               </label>
               <button
                 onClick={handleCopy}
@@ -291,6 +377,7 @@ export default function PromptDetailModal({
                 rows={6}
                 value={editedPrompt}
                 onChange={(e) => setEditedPrompt(e.target.value)}
+                placeholder="프롬프트 문구를 입력하세요..."
                 style={{
                   width: '100%',
                   padding: '0.85rem 1rem',
@@ -350,19 +437,19 @@ export default function PromptDetailModal({
           {isAdminMode ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               {isSavedNotice && (
-                <span style={{ fontSize: '0.8rem', color: '#4ade80', fontWeight: '600' }}>
-                  ✓ 저장 완료!
+                <span style={{ fontSize: '0.85rem', color: '#4ade80', fontWeight: '800' }}>
+                  ✓ 성공적으로 저장되었습니다!
                 </span>
               )}
               <button
                 onClick={handleDelete}
                 style={{
-                  padding: '0.5rem 0.85rem',
+                  padding: '0.55rem 0.95rem',
                   borderRadius: 'var(--radius-md)',
                   background: 'rgba(239, 68, 68, 0.2)',
-                  border: '1px solid rgba(239, 68, 68, 0.4)',
+                  border: '1px solid rgba(239, 68, 68, 0.5)',
                   color: '#ef4444',
-                  fontWeight: '600',
+                  fontWeight: '700',
                   fontSize: '0.85rem',
                   cursor: 'pointer',
                   display: 'flex',
@@ -377,22 +464,22 @@ export default function PromptDetailModal({
               <button
                 onClick={handleSave}
                 style={{
-                  padding: '0.5rem 1.1rem',
+                  padding: '0.55rem 1.25rem',
                   borderRadius: 'var(--radius-md)',
                   background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                   border: 'none',
                   color: '#fff',
-                  fontWeight: '700',
-                  fontSize: '0.88rem',
+                  fontWeight: '800',
+                  fontSize: '0.9rem',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.4rem',
-                  boxShadow: '0 4px 12px rgba(245, 158, 11, 0.35)'
+                  boxShadow: '0 4px 15px rgba(245, 158, 11, 0.4)'
                 }}
               >
                 <Save size={16} />
-                <span>수정 저장</span>
+                <span>수정 저장하기</span>
               </button>
             </div>
           ) : (
