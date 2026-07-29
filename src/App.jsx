@@ -7,7 +7,6 @@ import AddPromptModal from './components/AddPromptModal';
 import FirebaseConfigModal from './components/FirebaseConfigModal';
 import AdminPinModal from './components/AdminPinModal';
 import IntroPage from './components/IntroPage';
-import Lightfall from './components/Lightfall';
 import { getStoredPrompts, addNewPrompt, updateStoredPrompt, deleteStoredPrompt } from './services/storage';
 
 export default function App() {
@@ -19,7 +18,7 @@ export default function App() {
   const [showFirebaseModal, setShowFirebaseModal] = useState(false);
   const [showAdminPinModal, setShowAdminPinModal] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
-  const [showIntro, setShowIntro] = useState(true); // Default to showing Intro page first!
+  const [showIntro, setShowIntro] = useState(true);
   const [bookmarks, setBookmarks] = useState(() => {
     try {
       const saved = localStorage.getItem('gpt_image2_bookmarks');
@@ -138,7 +137,7 @@ export default function App() {
     });
   }, [prompts, activeCategory, searchQuery, bookmarks]);
 
-  // Render Intro Screen if active
+  // Render Intro Screen if active (Includes Lightfall starlight animation)
   if (showIntro) {
     return (
       <IntroPage
@@ -148,19 +147,9 @@ export default function App() {
     );
   }
 
+  // Clean Gallery Screen without background Lightfall starlight canvas
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-main)' }}>
-      {/* Lightfall background */}
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
-        <Lightfall
-          colors={['#A6C8FF', '#5227FF', '#FF9FFC']}
-          backgroundColor="#0a0d14"
-          speed={0.8}
-          streakCount={6}
-          opacity={0.3}
-        />
-      </div>
-
       <div style={{ position: 'relative', zIndex: 10 }}>
         {/* Navigation Bar */}
         <Navbar
