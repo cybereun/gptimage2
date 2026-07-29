@@ -19,7 +19,7 @@ export default function App() {
   const [showFirebaseModal, setShowFirebaseModal] = useState(false);
   const [showAdminPinModal, setShowAdminPinModal] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
-  const [showIntro, setShowIntro] = useState(false); // Enter gallery immediately
+  const [showIntro, setShowIntro] = useState(true); // Default to showing Intro page first!
   const [bookmarks, setBookmarks] = useState(() => {
     try {
       const saved = localStorage.getItem('gpt_image2_bookmarks');
