@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Star, Sparkles, Trash2 } from 'lucide-react';
+import { Copy, Check, Star, Sparkles, Trash2, Image as ImageIcon, MessageSquareText } from 'lucide-react';
 
 export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked, onToggleBookmark, onDeletePrompt }) {
   const [copied, setCopied] = useState(false);
@@ -26,7 +26,19 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
     }
   };
 
-  const fallbackBg = 'linear-gradient(135deg, rgba(30,35,50,1) 0%, rgba(15,18,28,1) 100%)';
+  // Dynamic aesthetic fallback background for text-only prompts
+  const categoryGradients = [
+    'linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(59,130,246,0.2) 100%)',
+    'linear-gradient(135deg, rgba(6,182,212,0.3) 0%, rgba(139,92,246,0.2) 100%)',
+    'linear-gradient(135deg, rgba(236,72,153,0.3) 0%, rgba(139,92,246,0.2) 100%)',
+    'linear-gradient(135deg, rgba(34,197,94,0.3) 0%, rgba(59,130,246,0.2) 100%)'
+  ];
+
+  // Hash title to pick consistent gradient index
+  const hash = promptItem.title ? promptItem.title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
+  const gradientBg = categoryGradients[hash % categoryGradients.length];
+
+  const hasValidImage = promptItem.imageUrl && promptItem.imageUrl.trim().length > 0 && !imgError;
 
   return (
     <div 
@@ -38,18 +50,20 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
         display: 'flex',
         flexDirection: 'column',
         cursor: 'pointer',
-        position: 'relative'
+        position: 'relative',
+        minHeight: '340px'
       }}
     >
-      {/* Image Container */}
+      {/* Image / Header Artwork Container */}
       <div style={{
         position: 'relative',
         width: '100%',
-        paddingTop: '65%',
-        background: fallbackBg,
-        overflow: 'hidden'
+        paddingTop: hasValidImage ? '65%' : '45%',
+        background: gradientBg,
+        overflow: 'hidden',
+        transition: 'padding-top 0.3s ease'
       }}>
-        {!imgError && promptItem.imageUrl ? (
+        {hasValidImage ? (
           <img
             src={promptItem.imageUrl}
             alt={promptItem.title}
@@ -78,12 +92,15 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'var(--text-subtle)',
-            padding: '1rem',
-            textAlign: 'center'
+            color: '#f3f4f6',
+            padding: '1.25rem',
+            textAlign: 'center',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)'
           }}>
-            <Sparkles size={28} style={{ marginBottom: '0.5rem', opacity: 0.5 }} />
-            <span style={{ fontSize: '0.8rem' }}>{promptItem.category}</span>
+            <MessageSquareText size={32} style={{ color: 'var(--accent-cyan)', marginBottom: '0.5rem', opacity: 0.85 }} />
+            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: '500' }}>
+              GPT-Image2 Text Prompt
+            </span>
           </div>
         )}
 
@@ -92,14 +109,18 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           position: 'absolute',
           top: '0.75rem',
           left: '0.75rem',
-          background: 'rgba(9, 10, 15, 0.75)',
+          background: 'rgba(9, 10, 15, 0.8)',
           backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
           padding: '0.25rem 0.65rem',
           borderRadius: 'var(--radius-full)',
           fontSize: '0.75rem',
           fontWeight: '500',
-          color: '#e2e8f0'
+          color: '#e2e8f0',
+          maxWidth: '180px',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
         }}>
           {promptItem.category}
         </div>
@@ -110,14 +131,14 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           top: '0.75rem',
           right: '0.75rem',
           display: 'flex',
-          gap: '0.4rem'
+          gap: '0.4rem',
+          zIndex: 5
         }}>
-          {/* Bookmark Toggle */}
           <button
             onClick={handleBookmark}
             style={{
-              background: isBookmarked ? 'rgba(234, 179, 8, 0.25)' : 'rgba(9, 10, 15, 0.65)',
-              border: isBookmarked ? '1px solid rgba(234, 179, 8, 0.5)' : '1px solid rgba(255, 255, 255, 0.1)',
+              background: isBookmarked ? 'rgba(234, 179, 8, 0.3)' : 'rgba(9, 10, 15, 0.65)',
+              border: isBookmarked ? '1px solid rgba(234, 179, 8, 0.6)' : '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '50%',
               width: '32px',
               height: '32px',
@@ -132,11 +153,10 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
             <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
           </button>
 
-          {/* Delete Button */}
           <button
             onClick={handleDelete}
             style={{
-              background: 'rgba(239, 68, 68, 0.2)',
+              background: 'rgba(239, 68, 68, 0.25)',
               border: '1px solid rgba(239, 68, 68, 0.4)',
               borderRadius: '50%',
               width: '32px',
@@ -180,13 +200,14 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           color: 'var(--text-muted)',
           lineHeight: 1.5,
           display: '-webkit-box',
-          WebkitLineClamp: 2,
+          WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical',
           overflow: 'hidden',
-          background: 'rgba(0, 0, 0, 0.25)',
-          padding: '0.5rem 0.65rem',
+          background: 'rgba(0, 0, 0, 0.3)',
+          padding: '0.6rem 0.75rem',
           borderRadius: 'var(--radius-sm)',
-          border: '1px solid rgba(255, 255, 255, 0.04)'
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          fontFamily: 'JetBrains Mono, monospace'
         }}>
           {promptItem.prompt || '(미리보기 프롬프트 없음)'}
         </p>
