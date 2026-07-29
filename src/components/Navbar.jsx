@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Plus, Database, Lock, Unlock, Key, Layers } from 'lucide-react';
+import { Search, Plus, Database, Unlock, Key, Layers } from 'lucide-react';
 
 export default function Navbar({ 
   searchQuery, 
@@ -8,7 +8,8 @@ export default function Navbar({
   onOpenFirebaseModal,
   isAdminMode,
   onOpenAdminModal,
-  onExitAdminMode
+  onExitAdminMode,
+  onShowIntro
 }) {
   return (
     <header style={{
@@ -28,8 +29,12 @@ export default function Navbar({
         justifyContent: 'space-between',
         gap: '1rem'
       }}>
-        {/* Logo & Title */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {/* Logo & Title (Click to return to Intro) */}
+        <div 
+          onClick={onShowIntro}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}
+          title="인트로 화면으로 이동"
+        >
           <div style={{
             width: '38px',
             height: '38px',
@@ -132,24 +137,25 @@ export default function Navbar({
             </button>
           )}
 
+          {/* Database Icon Only (Firebase text removed) */}
           <button
             onClick={onOpenFirebaseModal}
             style={{
-              padding: '0.55rem 0.85rem',
+              width: '38px',
+              height: '38px',
               borderRadius: 'var(--radius-md)',
               background: 'rgba(236, 72, 153, 0.12)',
               border: '1px solid rgba(236, 72, 153, 0.3)',
               color: '#f472b6',
-              fontWeight: '600',
-              fontSize: '0.82rem',
-              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem'
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
             }}
+            title="구글 Firebase 클라우드 DB 연동 설정"
           >
-            <Database size={15} />
-            <span>Firebase DB</span>
+            <Database size={18} />
           </button>
 
           <button

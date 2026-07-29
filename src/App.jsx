@@ -6,6 +6,7 @@ import PromptDetailModal from './components/PromptDetailModal';
 import AddPromptModal from './components/AddPromptModal';
 import FirebaseConfigModal from './components/FirebaseConfigModal';
 import AdminPinModal from './components/AdminPinModal';
+import IntroPage from './components/IntroPage';
 import Lightfall from './components/Lightfall';
 import { getStoredPrompts, addNewPrompt, updateStoredPrompt, deleteStoredPrompt } from './services/storage';
 
@@ -18,6 +19,7 @@ export default function App() {
   const [showFirebaseModal, setShowFirebaseModal] = useState(false);
   const [showAdminPinModal, setShowAdminPinModal] = useState(false);
   const [isAdminMode, setIsAdminMode] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
   const [bookmarks, setBookmarks] = useState(() => {
     try {
       const saved = localStorage.getItem('gpt_image2_bookmarks');
@@ -136,6 +138,16 @@ export default function App() {
     });
   }, [prompts, activeCategory, searchQuery, bookmarks]);
 
+  // Render Intro Screen if active
+  if (showIntro) {
+    return (
+      <IntroPage
+        totalPrompts={prompts.length}
+        onEnterGallery={() => setShowIntro(false)}
+      />
+    );
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-main)' }}>
       {/* Lightfall background */}
@@ -159,6 +171,7 @@ export default function App() {
           isAdminMode={isAdminMode}
           onOpenAdminModal={() => setShowAdminPinModal(true)}
           onExitAdminMode={() => setIsAdminMode(false)}
+          onShowIntro={() => setShowIntro(true)}
         />
 
         {/* Main Content Layout (Sidebar + Grid) */}
