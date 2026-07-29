@@ -3,11 +3,13 @@ import { fetchFirebasePrompts, saveFirebasePrompt } from './firebase';
 
 const LOCAL_STORAGE_KEY = 'gpt_image2_prompts';
 const DELETED_IDS_KEY = 'gpt_image2_deleted_ids';
+const UPDATED_PROMPTS_KEY = 'gpt_image2_updated_prompts';
 const FIREBASE_CONFIG_KEY = 'gpt_image2_firebase_config';
 
 export const getStoredPrompts = async () => {
   let localData = [];
   let deletedIds = [];
+  let updatedPrompts = {};
 
   try {
     const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -15,30 +17,35 @@ export const getStoredPrompts = async () => {
 
     const rawDeleted = localStorage.getItem(DELETED_IDS_KEY);
     if (rawDeleted) deletedIds = JSON.parse(rawDeleted);
+
+    const rawUpdated = localStorage.getItem(UPDATED_PROMPTS_KEY);
+    if (rawUpdated) updatedPrompts = JSON.parse(rawUpdated);
   } catch (e) {
     console.error('Error reading localStorage', e);
   }
 
-  // Merge initialPrompts with local user additions
   const mergedMap = new Map();
+
   initialPrompts.forEach(item => {
     if (!deletedIds.includes(item.id)) {
-      mergedMap.set(item.id, item);
+      const updated = updatedPrompts[item.id] ? { ...item, ...updatedPrompts[item.id] } : item;
+      mergedMap.set(item.id, updated);
     }
   });
 
   localData.forEach(item => {
     if (!deletedIds.includes(item.id)) {
-      mergedMap.set(item.id, item);
+      const updated = updatedPrompts[item.id] ? { ...item, ...updatedPrompts[item.id] } : item;
+      mergedMap.set(item.id, updated);
     }
   });
 
-  // Try fetching from Firebase if available
   const fbPrompts = await fetchFirebasePrompts();
   if (fbPrompts && fbPrompts.length > 0) {
     fbPrompts.forEach(item => {
       if (!deletedIds.includes(item.id)) {
-        mergedMap.set(item.id, item);
+        const updated = updatedPrompts[item.id] ? { ...item, ...updatedPrompts[item.id] } : item;
+        mergedMap.set(item.id, updated);
       }
     });
   }
@@ -66,6 +73,17 @@ export const addNewPrompt = async (newPromptData) => {
   return promptItem;
 };
 
+export const updateStoredPrompt = (id, updatedFields) => {
+  try {
+    const rawUpdated = localStorage.getItem(UPDATED_PROMPTS_KEY);
+    const existingUpdated = rawUpdated ? JSON.parse(rawUpdated) : {};
+    existingUpdated[id] = { ...existingUpdated[id], ...updatedFields };
+    localStorage.setItem(UPDATED_PROMPTS_KEY, JSON.stringify(existingUpdated));
+  } catch (e) {
+    console.error('Failed to update prompt', e);
+  }
+};
+
 export const deleteStoredPrompt = (id) => {
   try {
     const rawDeleted = localStorage.getItem(DELETED_IDS_KEY);
@@ -75,7 +93,6 @@ export const deleteStoredPrompt = (id) => {
       localStorage.setItem(DELETED_IDS_KEY, JSON.stringify(deletedIds));
     }
 
-    // Also remove from local additions if present
     const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (raw) {
       const existing = JSON.parse(raw);

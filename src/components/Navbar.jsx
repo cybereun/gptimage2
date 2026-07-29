@@ -1,146 +1,167 @@
 import React from 'react';
-import { Search, Plus, Database, Sparkles, Home, X } from 'lucide-react';
+import { Search, Plus, Database, Lock, Unlock, Key, Layers } from 'lucide-react';
 
 export default function Navbar({ 
   searchQuery, 
   setSearchQuery, 
   onOpenAddModal, 
-  onOpenFirebaseModal, 
-  onGoHome,
-  totalCount,
-  filteredCount
+  onOpenFirebaseModal,
+  isAdminMode,
+  onOpenAdminModal,
+  onExitAdminMode
 }) {
   return (
-    <header className="glass-panel" style={{
+    <header style={{
       position: 'sticky',
       top: 0,
-      zIndex: 100,
-      padding: '0.9rem 1.5rem',
+      zIndex: 40,
+      background: 'rgba(9, 10, 15, 0.8)',
+      backdropFilter: 'blur(16px)',
       borderBottom: '1px solid var(--glass-border)'
     }}>
       <div style={{
         maxWidth: '1300px',
         margin: '0 auto',
+        padding: '0.85rem 1.5rem',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '1rem',
-        flexWrap: 'wrap'
+        gap: '1rem'
       }}>
-        {/* Left: Brand Logo & Home */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <button 
-            onClick={onGoHome}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              color: 'var(--text-main)'
-            }}
-            title="인트로 페이지로 이동"
-          >
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: 'var(--radius-md)',
-              background: 'var(--gradient-hero)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 'var(--shadow-glow)'
-            }}>
-              <Sparkles size={22} color="white" />
-            </div>
-            <div style={{ textAlign: 'left' }}>
-              <div className="brand-title" style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.02em' }}>
-                GPT-Image2
-              </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                Prompt Skill Hub
-              </div>
-            </div>
-          </button>
+        {/* Logo & Title */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{
+            width: '38px',
+            height: '38px',
+            borderRadius: 'var(--radius-md)',
+            background: 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#fff',
+            boxShadow: '0 0 15px rgba(139, 92, 246, 0.4)'
+          }}>
+            <Layers size={20} />
+          </div>
+          <div>
+            <h1 style={{ fontSize: '1.15rem', fontWeight: '800', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              GPT-Image2
+            </h1>
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: '500' }}>
+              프롬프트 라이브러리
+            </span>
+          </div>
         </div>
 
-        {/* Center: Search Bar */}
+        {/* Search Input Bar */}
         <div style={{
-          flex: '1 1 340px',
-          maxWidth: '520px',
+          flex: 1,
+          maxWidth: '480px',
           position: 'relative'
         }}>
-          <Search 
-            size={18} 
-            style={{
-              position: 'absolute',
-              left: '1rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'var(--text-muted)'
-            }} 
-          />
+          <Search size={17} style={{
+            position: 'absolute',
+            left: '1rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: 'var(--text-muted)'
+          }} />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="프롬프트, 스타일, 카테고리 검색... (예: anime, cyberpunk, portrait)"
+            placeholder="프롬프트 키워드, 제목, 스타일 검색..."
             style={{
               width: '100%',
-              padding: '0.65rem 2.5rem 0.65rem 2.75rem',
+              padding: '0.65rem 1rem 0.65rem 2.6rem',
               borderRadius: 'var(--radius-full)',
-              background: 'rgba(255, 255, 255, 0.06)',
+              background: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid var(--glass-border)',
               color: 'var(--text-main)',
-              fontSize: '0.9rem',
+              fontSize: '0.88rem',
               outline: 'none',
               transition: 'all 0.2s ease'
             }}
-            onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'}
-            onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}
           />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              style={{
-                position: 'absolute',
-                right: '0.75rem',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-                padding: '0.2rem'
-              }}
-            >
-              <X size={16} />
-            </button>
-          )}
         </div>
 
-        {/* Right: Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          {/* Add Prompt Button */}
-          <button 
-            onClick={onOpenAddModal}
-            className="btn-primary"
-            style={{ padding: '0.55rem 1.1rem', fontSize: '0.88rem' }}
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          {/* Admin Mode Toggle Button */}
+          {isAdminMode ? (
+            <button
+              onClick={onExitAdminMode}
+              style={{
+                padding: '0.55rem 0.9rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'linear-gradient(135deg, #f59e0b, #ef4444)',
+                border: 'none',
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                boxShadow: '0 0 12px rgba(245, 158, 11, 0.4)'
+              }}
+              title="관리자 수정 모드 종료"
+            >
+              <Unlock size={15} />
+              <span>🔓 수정모드 종료 (복귀)</span>
+            </button>
+          ) : (
+            <button
+              onClick={onOpenAdminModal}
+              style={{
+                padding: '0.55rem 0.7rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid var(--glass-border)',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontSize: '0.82rem'
+              }}
+              title="관리자 암호 입력 (수정/삭제 모드)"
+            >
+              <Key size={16} style={{ color: '#facc15' }} />
+              <span>🔑</span>
+            </button>
+          )}
+
+          <button
+            onClick={onOpenFirebaseModal}
+            style={{
+              padding: '0.55rem 0.85rem',
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(236, 72, 153, 0.12)',
+              border: '1px solid rgba(236, 72, 153, 0.3)',
+              color: '#f472b6',
+              fontWeight: '600',
+              fontSize: '0.82rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem'
+            }}
           >
-            <Plus size={18} />
-            <span>프롬프트 추가</span>
+            <Database size={15} />
+            <span>Firebase DB</span>
           </button>
 
-          {/* Firebase DB Config Button */}
-          <button 
-            onClick={onOpenFirebaseModal}
-            className="btn-secondary"
-            style={{ padding: '0.55rem 0.9rem', fontSize: '0.88rem' }}
-            title="Firebase DB 설정"
+          <button
+            onClick={onOpenAddModal}
+            className="btn-primary"
+            style={{
+              padding: '0.55rem 1rem',
+              fontSize: '0.85rem'
+            }}
           >
-            <Database size={18} style={{ color: '#f472b6' }} />
-            <span style={{ display: 'none', md: 'inline' }}>Firebase DB</span>
+            <Plus size={16} />
+            <span>새 프롬프트</span>
           </button>
         </div>
       </div>
