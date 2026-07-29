@@ -4,11 +4,12 @@
 
 > **Empowering your AI Image Generation with 160+ curated prompts, 30+ style categories, 1-click clipboard copy, and optional Google Firebase cloud sync.**
 
+[![Developer](https://img.shields.io/badge/Developer-Lebi__Cybereun-FF4081?style=for-the-badge&logo=github&logoColor=white)](https://github.com/cybereun)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 [![Firebase](https://img.shields.io/badge/Firebase-Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.style=for-the-badge)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
 [🇰🇷 한국어](#-한국어-가이드) | [🇺🇸 English](#-english-guide) | [🇯🇵 日本語](#-日本語ガイド)
 
@@ -91,6 +92,7 @@ npm run dev
 ### 📜 원본 출처 및 크레딧 (Credits)
 이 프로젝트의 프롬프트 및 이미지 데이터셋 가이드는 아래 오픈소스 리포지토리를 기반으로 제작되었습니다:
 - **Original Skill Repository**: [wuyoscar/GPT-Image2-Skill](https://github.com/wuyoscar/GPT-Image2-Skill.git)
+- **Developer**: [Lebi_Cybereun](https://github.com/cybereun)
 
 ---
 
@@ -101,7 +103,7 @@ npm run dev
 
 ### 📌 Overview
 **GPT-Image2 Prompt Skill Hub** is a premium gallery web app optimized for GPT-Image2 and DALL-E 3 image generation.  
-Explore over 160 curated prompts across 30+ visual categories, search by style, and copy prompt text instantly with 1 click.
+Developed by **Lebi_Cybereun**. Explore over 160 curated prompts across 30+ visual categories, search by style, and copy prompt text instantly with 1 click.
 
 ### ✨ Key Features
 - **🎨 Glassmorphic Intro Landing Page**: Beautiful dark neon intro animation.
@@ -131,7 +133,7 @@ npm run dev
 ## 🇯🇵 日本語ガイド
 
 ### 📌 概要
-**GPT-Image2 Prompt Skill Hub**は、DALL-E 3およびGPT-Image2の画像生成に最適化されたプロンプトギャラリーWebアプリです。  
+**GPT-Image2 Prompt Skill Hub**は、DALL-E 3およびGPT-Image2の画像生成に最適化されたプロンプトギャラリーWebアプリです。（開発者: **Lebi_Cybereun**）  
 30以上のカテゴリーと160以上のプロンプトからお気に入りのスタイルを検索し、ワンクリックでプロンプトをコピーして利用できます。
 
 ### ✨ 主な機能
@@ -152,5 +154,5 @@ npm run dev
 ---
 
 <div align="center">
-  <p>Made with ❤️ for AI Creators • Powered by OpenAI & Vercel</p>
+  <p>Made with ❤️ by Lebi_Cybereun for AI Creators • Powered by OpenAI & Vercel</p>
 </div>
