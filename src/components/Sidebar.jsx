@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  User, Sparkles, Users, Tv, Film, Gamepad2, 
+  User, Tv, Film, Gamepad2, 
   Shirt, ShoppingBag, Dog, Car, Building2, Trees, 
   MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers, AlertTriangle, FileText
 } from 'lucide-react';
@@ -8,8 +8,6 @@ import {
 const iconMap = {
   AlertTriangle: <AlertTriangle size={16} />,
   User: <User size={16} />,
-  Sparkles: <Sparkles size={16} />,
-  Users: <Users size={16} />,
   Tv: <Tv size={16} />,
   Film: <Film size={16} />,
   Gamepad2: <Gamepad2 size={16} />,
@@ -30,7 +28,7 @@ const iconMap = {
 
 export default function Sidebar({ categories, activeCategory, setActiveCategory, totalCount }) {
   const noImgCategory = categories.find(c => c.name === '⚠️ 이미지 없음 (작업용)');
-  const personGroup = categories.filter(c => ['인물 사진 / 셀카', '인플루언서 / 모델', '캐릭터 / 커플 / 그룹'].includes(c.name));
+  const personGroup = categories.filter(c => ['인물 사진 / 셀카'].includes(c.name));
   const styleGroup = categories.filter(c => ['애니메이션 & 만화', '영화 & 시네마틱', '게이밍 & 판타지', '유화 / 수채화 / 미술'].includes(c.name));
   const topicGroup = categories.filter(c => ['패션 & 라이프스타일', '제품 / 음식 / 아이템', '동물 / 생명체', '차량 / 수송기기', '건축 / 인테리어', '풍경 / 자연', '도시 풍경 / 스트리트'].includes(c.name));
   const designGroup = categories.filter(c => ['📋 브랜드 & 제품 디자인 가이드', '3D & UI / UX', '텍스트 / 포스터', '다이어그램 / 차트', '기타 갤러리'].includes(c.name));
@@ -172,7 +170,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
 
       {/* SECTION 1: 🔥 인물 생성 */}
       <SidebarGroup 
-        title="🔥 인물 생성 (상위 추천)" 
+        title="🔥 인물 생성 (통합 대표)" 
         items={personGroup} 
         activeCategory={activeCategory} 
         setActiveCategory={setActiveCategory}

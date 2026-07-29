@@ -87,8 +87,6 @@ export default function App() {
     const categoryList = [
       { name: "⚠️ 이미지 없음 (작업용)", icon: "AlertTriangle" },
       { name: "인물 사진 / 셀카", icon: "User" },
-      { name: "인플루언서 / 모델", icon: "Sparkles" },
-      { name: "캐릭터 / 커플 / 그룹", icon: "Users" },
       { name: "애니메이션 & 만화", icon: "Tv" },
       { name: "영화 & 시네마틱", icon: "Film" },
       { name: "게이밍 & 판타지", icon: "Gamepad2" },

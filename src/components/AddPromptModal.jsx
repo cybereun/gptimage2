@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { X, Plus, Image as ImageIcon, Upload, Link, Check } from 'lucide-react';
+import { X, Plus, Upload, Link, Check } from 'lucide-react';
 
 export default function AddPromptModal({ onClose, onAddPrompt }) {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('인물 사진 / 셀카');
-  const [imageMode, setImageMode] = useState('url'); // 'url' or 'file'
+  const [imageMode, setImageMode] = useState('url');
   const [imageUrl, setImageUrl] = useState('');
   const [prompt, setPrompt] = useState('');
   const [tagsInput, setTagsInput] = useState('');
@@ -12,8 +12,6 @@ export default function AddPromptModal({ onClose, onAddPrompt }) {
 
   const categories = [
     "인물 사진 / 셀카",
-    "인플루언서 / 모델",
-    "캐릭터 / 커플 / 그룹",
     "애니메이션 & 만화",
     "영화 & 시네마틱",
     "게이밍 & 판타지",
@@ -24,6 +22,7 @@ export default function AddPromptModal({ onClose, onAddPrompt }) {
     "건축 / 인테리어",
     "풍경 / 자연",
     "도시 풍경 / 스트리트",
+    "📋 브랜드 & 제품 디자인 가이드",
     "3D & UI / UX",
     "텍스트 / 포스터",
     "유화 / 수채화 / 미술",
@@ -31,7 +30,6 @@ export default function AddPromptModal({ onClose, onAddPrompt }) {
     "기타 갤러리"
   ];
 
-  // Handle local image file upload using FileReader (Base64 Data URL)
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -42,7 +40,7 @@ export default function AddPromptModal({ onClose, onAddPrompt }) {
       setFileName(file.name);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImageUrl(reader.result); // Base64 data URL
+        setImageUrl(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -173,7 +171,7 @@ export default function AddPromptModal({ onClose, onAddPrompt }) {
             </select>
           </div>
 
-          {/* Image Mode Selector (URL or Local File Upload) */}
+          {/* Image Mode Selector */}
           <div>
             <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
               이미지 첨부 방식 (선택)
