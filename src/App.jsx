@@ -99,6 +99,7 @@ export default function App() {
       { name: "건축 / 인테리어", icon: "Building2" },
       { name: "풍경 / 자연", icon: "Trees" },
       { name: "도시 풍경 / 스트리트", icon: "MapPin" },
+      { name: "📋 브랜드 & 제품 디자인 가이드", icon: "FileText" },
       { name: "3D & UI / UX", icon: "Box" },
       { name: "텍스트 / 포스터", icon: "Type" },
       { name: "유화 / 수채화 / 미술", icon: "Palette" },
@@ -137,7 +138,7 @@ export default function App() {
     });
   }, [prompts, activeCategory, searchQuery, bookmarks]);
 
-  // Render Intro Screen if active (Includes Lightfall starlight animation)
+  // Render Intro Screen if active
   if (showIntro) {
     return (
       <IntroPage
@@ -147,7 +148,7 @@ export default function App() {
     );
   }
 
-  // Clean Gallery Screen without background Lightfall starlight canvas
+  // Clean Gallery Screen
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-main)' }}>
       <div style={{ position: 'relative', zIndex: 10 }}>

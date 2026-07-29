@@ -43,6 +43,7 @@ export default function PromptDetailModal({
     "건축 / 인테리어",
     "풍경 / 자연",
     "도시 풍경 / 스트리트",
+    "📋 브랜드 & 제품 디자인 가이드",
     "3D & UI / UX",
     "텍스트 / 포스터",
     "유화 / 수채화 / 미술",
@@ -135,9 +136,8 @@ export default function PromptDetailModal({
             )}
           </div>
 
-          {/* Top Right Controls: Close button + Key Icon */}
+          {/* Top Right Controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            {/* Key Icon button right next to Close button */}
             {!isAdminMode ? (
               <button
                 onClick={onOpenAdminModal}
@@ -223,7 +223,7 @@ export default function PromptDetailModal({
             </div>
           )}
 
-          {/* Title Area (Editable in Admin Mode) */}
+          {/* Title Area */}
           <div>
             <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
               프롬프트 제목 {isAdminMode && <span style={{ color: '#f59e0b' }}>(수정 가능)</span>}
@@ -252,7 +252,7 @@ export default function PromptDetailModal({
             )}
           </div>
 
-          {/* Category Selector (Editable in Admin Mode) */}
+          {/* Category Selector */}
           {isAdminMode && (
             <div>
               <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
@@ -279,7 +279,7 @@ export default function PromptDetailModal({
             </div>
           )}
 
-          {/* Prompt Content Area (Editable in Admin Mode) */}
+          {/* Prompt Content Area */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
               <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
@@ -355,7 +355,6 @@ export default function PromptDetailModal({
             <span>{isBookmarked ? '즐겨찾기 됨' : '즐겨찾기'}</span>
           </button>
 
-          {/* Admin Mode Buttons: Save, Delete, Exit Mode */}
           {isAdminMode ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
               {isSavedNotice && (

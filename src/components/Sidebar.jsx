@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   User, Sparkles, Users, Tv, Film, Gamepad2, 
   Shirt, ShoppingBag, Dog, Car, Building2, Trees, 
-  MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers, AlertTriangle
+  MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers, AlertTriangle, FileText
 } from 'lucide-react';
 
 const iconMap = {
@@ -24,6 +24,7 @@ const iconMap = {
   Type: <Type size={16} />,
   Palette: <Palette size={16} />,
   Box: <Box size={16} />,
+  FileText: <FileText size={16} />,
   Grid: <Grid size={16} />
 };
 
@@ -32,7 +33,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
   const personGroup = categories.filter(c => ['인물 사진 / 셀카', '인플루언서 / 모델', '캐릭터 / 커플 / 그룹'].includes(c.name));
   const styleGroup = categories.filter(c => ['애니메이션 & 만화', '영화 & 시네마틱', '게이밍 & 판타지', '유화 / 수채화 / 미술'].includes(c.name));
   const topicGroup = categories.filter(c => ['패션 & 라이프스타일', '제품 / 음식 / 아이템', '동물 / 생명체', '차량 / 수송기기', '건축 / 인테리어', '풍경 / 자연', '도시 풍경 / 스트리트'].includes(c.name));
-  const designGroup = categories.filter(c => ['3D & UI / UX', '텍스트 / 포스터', '다이어그램 / 차트', '기타 갤러리'].includes(c.name));
+  const designGroup = categories.filter(c => ['📋 브랜드 & 제품 디자인 가이드', '3D & UI / UX', '텍스트 / 포스터', '다이어그램 / 차트', '기타 갤러리'].includes(c.name));
   const bookmarksCategory = categories.find(c => c.name === 'Bookmarks');
 
   return (
