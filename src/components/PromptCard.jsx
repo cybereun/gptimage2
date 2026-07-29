@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Copy, Check, Star, Trash2, MessageSquareText } from 'lucide-react';
+import { Copy, Check, Star, MessageSquareText } from 'lucide-react';
 
-export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked, onToggleBookmark, onDeletePrompt }) {
+export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked, onToggleBookmark }) {
   const [copied, setCopied] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -17,13 +17,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
   const handleBookmark = (e) => {
     e.stopPropagation();
     if (onToggleBookmark) onToggleBookmark(promptItem.id);
-  };
-
-  const handleDelete = (e) => {
-    e.stopPropagation();
-    if (window.confirm(`'${promptItem.title}' 프롬프트를 갤러리에서 삭제하시겠습니까?`)) {
-      if (onDeletePrompt) onDeletePrompt(promptItem.id);
-    }
   };
 
   const categoryGradients = [
@@ -123,6 +116,7 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           {promptItem.category}
         </div>
 
+        {/* Top Right Action Button (Bookmark only) */}
         <div style={{
           position: 'absolute',
           top: '0.75rem',
@@ -148,25 +142,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
             title="즐겨찾기"
           >
             <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
-          </button>
-
-          <button
-            onClick={handleDelete}
-            style={{
-              background: 'rgba(239, 68, 68, 0.25)',
-              border: '1px solid rgba(239, 68, 68, 0.4)',
-              borderRadius: '50%',
-              width: '32px',
-              height: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              color: '#f87171'
-            }}
-            title="프롬프트 삭제"
-          >
-            <Trash2 size={15} />
           </button>
         </div>
       </div>

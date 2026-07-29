@@ -10,17 +10,14 @@ export default function PromptGrid({
   onCopyPrompt, 
   bookmarks, 
   onToggleBookmark,
-  onDeletePrompt,
   onResetSearch
 }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  // Reset pagination count whenever prompts change (e.g. category or search changes)
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
   }, [prompts]);
 
-  // Infinite Scroll Trigger
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -98,12 +95,10 @@ export default function PromptGrid({
             onCopy={onCopyPrompt}
             isBookmarked={bookmarks.includes(item.id)}
             onToggleBookmark={onToggleBookmark}
-            onDeletePrompt={onDeletePrompt}
           />
         ))}
       </div>
 
-      {/* Load More Button & Infinite Scroll Indicator */}
       {hasMore && (
         <div style={{
           display: 'flex',
