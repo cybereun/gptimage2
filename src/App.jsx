@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import IntroPage from './components/IntroPage';
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import CategoryFilter from './components/CategoryFilter';
 import PromptGrid from './components/PromptGrid';
 import PromptDetailModal from './components/PromptDetailModal';
@@ -61,19 +62,23 @@ export default function App() {
   const categoriesWithCounts = useMemo(() => {
     const map = new Map();
     prompts.forEach(p => {
-      const cat = p.category || 'Uncategorized';
-      map.set(cat, (map.get(cat) || 0) + 1);
+      const cat = p.category || '기타 갤러리';
+      map.set(cat, {
+        count: (map.get(cat)?.count || 0) + 1,
+        icon: p.categoryIcon || 'Grid',
+        group: p.categoryGroup || '기타'
+      });
     });
 
-    const result = [{ name: 'All', label: '전체 (All)', count: prompts.length }];
+    const result = [{ name: 'All', label: '전체 (All)', count: prompts.length, icon: 'Grid' }];
     if (bookmarks.length > 0) {
-      result.push({ name: 'Bookmarks', label: '⭐ 즐겨찾기', count: bookmarks.length });
+      result.push({ name: 'Bookmarks', label: '⭐ 즐겨찾기', count: bookmarks.length, icon: 'Star' });
     }
 
     Array.from(map.entries())
-      .sort((a, b) => b[1] - a[1])
-      .forEach(([catName, count]) => {
-        result.push({ name: catName, label: catName, count });
+      .sort((a, b) => b[1].count - a[1].count)
+      .forEach(([catName, info]) => {
+        result.push({ name: catName, label: catName, count: info.count, icon: info.icon, group: info.group });
       });
 
     return result;
@@ -121,42 +126,69 @@ export default function App() {
             filteredCount={filteredPrompts.length}
           />
 
-          <CategoryFilter 
-            categories={categoriesWithCounts}
-            activeCategory={activeCategory}
-            setActiveCategory={setActiveCategory}
-          />
-
+          {/* Main Content Layout (Sidebar + Prompt Grid) */}
           <div style={{
-            maxWidth: '1300px',
-            margin: '0.75rem auto 0',
-            padding: '0 1.5rem',
+            maxWidth: '1380px',
+            width: '100%',
+            margin: '1.25rem auto 3rem',
+            padding: '0 1.25rem',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            color: 'var(--text-muted)',
-            fontSize: '0.88rem'
+            gap: '1.5rem',
+            alignItems: 'flex-start'
           }}>
-            <div>
-              <span>총 </span>
-              <strong style={{ color: 'var(--accent-cyan)' }}>{filteredPrompts.length}개</strong>
-              <span>의 프롬프트</span>
-              {searchQuery && <span> ('{searchQuery}' 검색 결과)</span>}
-            </div>
-          </div>
+            {/* Left Category Sidebar */}
+            <Sidebar
+              categories={categoriesWithCounts}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+              totalCount={prompts.length}
+            />
 
-          <PromptGrid 
-            prompts={filteredPrompts}
-            onSelectPrompt={(item) => setSelectedPrompt(item)}
-            onCopyPrompt={() => showToast('클립보드에 프롬프트가 복사되었습니다!')}
-            bookmarks={bookmarks}
-            onToggleBookmark={handleToggleBookmark}
-            onDeletePrompt={handleDeletePrompt}
-            onResetSearch={() => {
-              setSearchQuery('');
-              setActiveCategory('All');
-            }}
-          />
+            {/* Right Gallery Container */}
+            <main style={{ flex: 1, width: '100%', minWidth: 0 }}>
+              {/* Active Category Header Banner */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '1rem',
+                padding: '0.75rem 1.25rem',
+                borderRadius: 'var(--radius-md)',
+                background: 'rgba(18, 22, 33, 0.6)',
+                border: '1px solid var(--glass-border)',
+                backdropFilter: 'blur(12px)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <span style={{ fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>
+                    {activeCategory === 'All' ? '전체 프롬프트' : activeCategory}
+                  </span>
+                  <span style={{ fontSize: '0.82rem', color: 'var(--accent-cyan)', fontWeight: '600' }}>
+                    ({filteredPrompts.length}개)
+                  </span>
+                </div>
+
+                {searchQuery && (
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    '{searchQuery}' 검색 결과
+                  </span>
+                )}
+              </div>
+
+              {/* Prompt Grid Component */}
+              <PromptGrid 
+                prompts={filteredPrompts}
+                onSelectPrompt={(item) => setSelectedPrompt(item)}
+                onCopyPrompt={() => showToast('클립보드에 프롬프트가 복사되었습니다!')}
+                bookmarks={bookmarks}
+                onToggleBookmark={handleToggleBookmark}
+                onDeletePrompt={handleDeletePrompt}
+                onResetSearch={() => {
+                  setSearchQuery('');
+                  setActiveCategory('All');
+                }}
+              />
+            </main>
+          </div>
 
           <footer style={{
             marginTop: 'auto',
@@ -166,7 +198,7 @@ export default function App() {
             color: 'var(--text-subtle)',
             fontSize: '0.85rem'
           }}>
-            <p>GPT-Image2 Skill Gallery & Prompt Hub • Powered by OpenAI & Vercel</p>
+            <p>GPT-Image2 Skill Gallery & Prompt Hub • Developed by Lebi_Cybereun</p>
           </footer>
         </>
       )}
