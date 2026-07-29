@@ -2,10 +2,11 @@ import React from 'react';
 import { 
   User, Sparkles, Users, Tv, Film, Gamepad2, 
   Shirt, ShoppingBag, Dog, Car, Building2, Trees, 
-  MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers
+  MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers, AlertTriangle
 } from 'lucide-react';
 
 const iconMap = {
+  AlertTriangle: <AlertTriangle size={16} />,
   User: <User size={16} />,
   Sparkles: <Sparkles size={16} />,
   Users: <Users size={16} />,
@@ -27,7 +28,7 @@ const iconMap = {
 };
 
 export default function Sidebar({ categories, activeCategory, setActiveCategory, totalCount }) {
-  // Group categories into organized sections with '인물 생성' strictly prioritized at top
+  const noImgCategory = categories.find(c => c.name === '⚠️ 이미지 없음 (작업용)');
   const personGroup = categories.filter(c => ['인물 사진 / 셀카', '인플루언서 / 모델', '캐릭터 / 커플 / 그룹'].includes(c.name));
   const styleGroup = categories.filter(c => ['애니메이션 & 만화', '영화 & 시네마틱', '게이밍 & 판타지', '유화 / 수채화 / 미술'].includes(c.name));
   const topicGroup = categories.filter(c => ['패션 & 라이프스타일', '제품 / 음식 / 아이템', '동물 / 생명체', '차량 / 수송기기', '건축 / 인테리어', '풍경 / 자연', '도시 풍경 / 스트리트'].includes(c.name));
@@ -36,13 +37,13 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
 
   return (
     <aside className="glass-panel" style={{
-      width: '280px',
+      width: '285px',
       flexShrink: 0,
       borderRadius: 'var(--radius-lg)',
       padding: '1.25rem 1rem',
       display: 'flex',
       flexDirection: 'column',
-      gap: '1.5rem',
+      gap: '1.4rem',
       height: 'fit-content',
       position: 'sticky',
       top: '90px',
@@ -73,6 +74,43 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
         </span>
       </div>
 
+      {/* WORKSHOP CATEGORY: ⚠️ 이미지 없음 (작업용) High Priority Button */}
+      {noImgCategory && (
+        <button
+          onClick={() => setActiveCategory('⚠️ 이미지 없음 (작업용)')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0.7rem 0.9rem',
+            borderRadius: 'var(--radius-md)',
+            background: activeCategory === '⚠️ 이미지 없음 (작업용)'
+              ? 'linear-gradient(135deg, #f59e0b, #ef4444)'
+              : 'rgba(245, 158, 11, 0.15)',
+            border: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'none' : '1px solid rgba(245, 158, 11, 0.4)',
+            color: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '#fff' : '#fbbf24',
+            fontWeight: '700',
+            fontSize: '0.88rem',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            boxShadow: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '0 4px 15px rgba(245, 158, 11, 0.4)' : 'none'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <AlertTriangle size={17} />
+            <span>⚠️ 이미지 없음 (작업용)</span>
+          </div>
+          <span style={{
+            fontSize: '0.75rem',
+            background: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'rgba(0,0,0,0.3)' : 'rgba(245, 158, 11, 0.25)',
+            padding: '0.15rem 0.5rem',
+            borderRadius: 'var(--radius-full)'
+          }}>
+            {noImgCategory.count}
+          </span>
+        </button>
+      )}
+
       {/* All & Bookmarks Quick Buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
         <button
@@ -81,7 +119,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0.65rem 0.9rem',
+            padding: '0.6rem 0.9rem',
             borderRadius: 'var(--radius-md)',
             background: activeCategory === 'All' 
               ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))' 
@@ -109,7 +147,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: '0.65rem 0.9rem',
+              padding: '0.6rem 0.9rem',
               borderRadius: 'var(--radius-md)',
               background: activeCategory === 'Bookmarks' 
                 ? 'rgba(234, 179, 8, 0.25)' 
@@ -131,7 +169,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
         )}
       </div>
 
-      {/* SECTION 1: 🔥 인물 생성 (Prioritized Top Group) */}
+      {/* SECTION 1: 🔥 인물 생성 */}
       <SidebarGroup 
         title="🔥 인물 생성 (상위 추천)" 
         items={personGroup} 
