@@ -2225,5 +2225,18 @@
       "Landscape"
     ],
     "createdAt": "2026-07-29T10:57:23.422Z"
+  },
+  {
+    "id": "gpt-img-163",
+    "title": "Recommended upgrade path from `gpt-image-1.5` and `gpt-image-1`",
+    "category": "Openai Cookbook",
+    "categorySlug": "openai-cookbook",
+    "imageUrl": "https://raw.githubusercontent.com/wuyoscar/GPT-Image2-Skill/main/{item[",
+    "prompt": "python\r\nimport os\r\nimport base64\r\nfrom openai import OpenAI\r\n\r\nclient = OpenAI()\r\n\r\nos.makedirs(\"../../images/input_images\", exist_ok=True)\r\nos.makedirs(\"../../images/output_images\", exist_ok=True)\r\n\r\ndef save_image(result, filename: str) -> None:\r\n    \"\"\"\r\n    Saves the first returned image to the given filename inside the output_images folder.\r\n    \"\"\"\r\n    image_base64 = result.data[0].b64_json\r\n    out_path = os.path.join(\"../../images/output_images\", filename)\r\n    with open(out_path, \"wb\") as f:\r\n        f.write(base64.b64decode(image_base64))\r\n\r\nfrom IPython.display import HTML, Image, display\r\n\r\ndef display_image_grid(items, width=240):\r\n    cards = []\r\n    for item in items:\r\n        title = item.get(\"title\", \"\")\r\n        label = f'<div style=\"font-weight:600;margin-bottom:8px\">{title}</div>' if title else \"\"\r\n        cards.append(\r\n            '<div style=\"text-align:center\">'\r\n            + label\r\n            + f'<img src=\"{item[\"path\"]}\" width=\"{width}\" style=\"max-width:100%;height:auto;\" />'\r\n            + '</div>'\r\n        )\r\n    display(HTML('<div style=\"display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start\">' + ''.join(cards) + '</div>'))",
+    "metadata": "",
+    "tags": [
+      "Openai Cookbook"
+    ],
+    "createdAt": "2026-07-29T12:01:23.934Z"
   }
 ]
