@@ -16,7 +16,7 @@ export default function IntroPage({ onEnter }) {
       padding: '2rem 1.5rem',
       background: '#090a0f'
     }}>
-      {/* Minimalistic & Elegant WebGL Lightfall Shader (Minimum Streaks) */}
+      {/* Perfectly Balanced React Bits Lightfall Shader Background */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -24,24 +24,24 @@ export default function IntroPage({ onEnter }) {
         width: '100%',
         height: '100%',
         zIndex: 1,
-        opacity: 0.55
+        opacity: 0.85
       }}>
         <Lightfall
-          colors={['#8B5CF6', '#3B82F6', '#06B6D4']}
-          backgroundColor="#090A0F"
-          speed={0.4}
-          streakCount={1}
-          streakWidth={0.8}
-          streakLength={1.0}
-          glow={0.7}
-          density={0.1}
-          twinkle={0.5}
-          zoom={1.8}
-          backgroundGlow={0.3}
-          opacity={0.55}
+          colors={['#A6C8FF', '#5227FF', '#FF9FFC']}
+          backgroundColor="#05081E"
+          speed={0.8}
+          streakCount={2}
+          streakWidth={1}
+          streakLength={1}
+          glow={1}
+          density={0.35}
+          twinkle={0.8}
+          zoom={2.0}
+          backgroundGlow={0.8}
+          opacity={0.85}
           mouseInteraction={true}
-          mouseStrength={1.0}
-          mouseRadius={0.8}
+          mouseStrength={0.8}
+          mouseRadius={0.6}
         />
       </div>
 
