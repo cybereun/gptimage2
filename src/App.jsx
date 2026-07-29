@@ -188,6 +188,8 @@ export default function App() {
                 bookmarks={bookmarks}
                 onToggleBookmark={handleToggleBookmark}
                 onResetSearch={() => { setSearchQuery(''); setActiveCategory('All'); }}
+                isAdminMode={isAdminMode}
+                onDeletePrompt={handleDeletePrompt}
               />
             )}
           </div>

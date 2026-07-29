@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Copy, Check, Star, AlertTriangle } from 'lucide-react';
+import { Copy, Check, Star, AlertTriangle, Edit3, Trash2 } from 'lucide-react';
 
 export default function PromptCard({ 
   promptItem, 
   onSelectPrompt, 
   onCopyPrompt,
   isBookmarked,
-  onToggleBookmark
+  onToggleBookmark,
+  isAdminMode,
+  onDeletePrompt
 }) {
   const [copied, setCopied] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -22,6 +24,18 @@ export default function PromptCard({
   const handleBookmark = (e) => {
     e.stopPropagation();
     if (onToggleBookmark) onToggleBookmark(promptItem.id);
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (window.confirm(`'${promptItem.title}' 프롬프트를 vraiment 삭제하시겠습니까?`)) {
+      if (onDeletePrompt) onDeletePrompt(promptItem.id);
+    }
+  };
+
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    if (onSelectPrompt) onSelectPrompt(promptItem);
   };
 
   const isNoImageCategory = promptItem.category === '⚠️ 이미지 없음 (작업용)';
@@ -40,10 +54,11 @@ export default function PromptCard({
         height: '100%',
         position: 'relative',
         transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-        border: isNoImageCategory ? '1px solid rgba(245, 158, 11, 0.5)' : '1px solid var(--glass-border)'
+        border: isAdminMode ? '2px solid #f59e0b' : isNoImageCategory ? '1px solid rgba(245, 158, 11, 0.5)' : '1px solid var(--glass-border)',
+        boxShadow: isAdminMode ? '0 0 15px rgba(245, 158, 11, 0.25)' : 'none'
       }}
     >
-      {/* Work Number Badge if '⚠️ 이미지 없음 (작업용)' */}
+      {/* Work Number Badge */}
       {isNoImageCategory && promptItem.workNumber && (
         <div style={{
           position: 'absolute',
@@ -63,6 +78,66 @@ export default function PromptCard({
         }}>
           <AlertTriangle size={14} />
           <span>NO. #{promptItem.workNumber}</span>
+        </div>
+      )}
+
+      {/* ADMIN CONTROLS OVERLAY ON CARD */}
+      {isAdminMode && (
+        <div 
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem'
+          }}
+        >
+          <button
+            onClick={handleEditClick}
+            style={{
+              background: '#f59e0b',
+              color: '#000',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
+              padding: '0.35rem 0.65rem',
+              fontWeight: '800',
+              fontSize: '0.78rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.5)'
+            }}
+            title="수정하기"
+          >
+            <Edit3 size={13} />
+            <span>수정</span>
+          </button>
+
+          <button
+            onClick={handleDelete}
+            style={{
+              background: '#ef4444',
+              color: '#fff',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
+              padding: '0.35rem 0.55rem',
+              fontWeight: '800',
+              fontSize: '0.78rem',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.25rem',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.5)'
+            }}
+            title="삭제하기"
+          >
+            <Trash2 size={13} />
+            <span>삭제</span>
+          </button>
         </div>
       )}
 
@@ -127,31 +202,33 @@ export default function PromptCard({
           {promptItem.category}
         </div>
 
-        {/* Bookmark Button */}
-        <button
-          onClick={handleBookmark}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            background: 'rgba(9, 10, 15, 0.65)',
-            backdropFilter: 'blur(6px)',
-            border: 'none',
-            borderRadius: '50%',
-            width: '32px',
-            height: '32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: isBookmarked ? '#facc15' : '#94a3b8',
-            cursor: 'pointer',
-            zIndex: 3,
-            transition: 'transform 0.2s ease'
-          }}
-          title={isBookmarked ? "즐겨찾기 해제" : "즐겨찾기 추가"}
-        >
-          <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
-        </button>
+        {/* Bookmark Button (when not admin mode) */}
+        {!isAdminMode && (
+          <button
+            onClick={handleBookmark}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              background: 'rgba(9, 10, 15, 0.65)',
+              backdropFilter: 'blur(6px)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: isBookmarked ? '#facc15' : '#94a3b8',
+              cursor: 'pointer',
+              zIndex: 3,
+              transition: 'transform 0.2s ease'
+            }}
+            title={isBookmarked ? "즐겨찾기 해제" : "즐겨찾기 추가"}
+          >
+            <Star size={16} fill={isBookmarked ? '#facc15' : 'none'} />
+          </button>
+        )}
       </div>
 
       {/* Card Content Body */}

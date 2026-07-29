@@ -10,7 +10,9 @@ export default function PromptGrid({
   onCopyPrompt, 
   bookmarks, 
   onToggleBookmark,
-  onResetSearch
+  onResetSearch,
+  isAdminMode,
+  onDeletePrompt
 }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -91,10 +93,12 @@ export default function PromptGrid({
           <PromptCard
             key={item.id}
             promptItem={item}
-            onSelect={onSelectPrompt}
-            onCopy={onCopyPrompt}
+            onSelectPrompt={onSelectPrompt}
+            onCopyPrompt={onCopyPrompt}
             isBookmarked={bookmarks.includes(item.id)}
             onToggleBookmark={onToggleBookmark}
+            isAdminMode={isAdminMode}
+            onDeletePrompt={onDeletePrompt}
           />
         ))}
       </div>
