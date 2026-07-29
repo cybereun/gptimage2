@@ -2,7 +2,13 @@ import React from 'react';
 import { Sparkles, Search, Copy, PlusCircle, Database, ArrowRight } from 'lucide-react';
 import Lightfall from './Lightfall';
 
-export default function IntroPage({ onEnter }) {
+export default function IntroPage({ onEnter, onEnterGallery, totalPrompts }) {
+  const handleEnter = (e) => {
+    if (e) e.stopPropagation();
+    if (onEnterGallery) onEnterGallery();
+    else if (onEnter) onEnter();
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -24,7 +30,8 @@ export default function IntroPage({ onEnter }) {
         width: '100%',
         height: '100%',
         zIndex: 1,
-        opacity: 0.85
+        opacity: 0.85,
+        pointerEvents: 'none'
       }}>
         <Lightfall
           colors={['#A6C8FF', '#5227FF', '#FF9FFC']}
@@ -48,7 +55,7 @@ export default function IntroPage({ onEnter }) {
       {/* Content Container */}
       <div style={{
         position: 'relative',
-        zIndex: 10,
+        zIndex: 20,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -99,12 +106,12 @@ export default function IntroPage({ onEnter }) {
           marginBottom: '2.5rem',
           textShadow: '0 2px 10px rgba(0,0,0,0.9)'
         }}>
-          30여 가지 고품질 예술 스타일과 162개 프롬프트를 탐색하고 1초 만에 복사하여 최고의 AI 이미지를 생성해보세요. 마우스로 빛의 물결을 반응시켜 보세요!
+          {totalPrompts || 2431}개 이상의 고품질 프롬프트를 탐색하고 1초 만에 복사하여 최고의 AI 이미지를 생성해보세요!
         </p>
 
         {/* Enter Button */}
         <button 
-          onClick={onEnter}
+          onClick={handleEnter}
           className="btn-primary"
           style={{
             fontSize: '1.15rem',
@@ -112,7 +119,9 @@ export default function IntroPage({ onEnter }) {
             borderRadius: 'var(--radius-lg)',
             cursor: 'pointer',
             marginBottom: '3.5rem',
-            boxShadow: '0 0 30px rgba(139, 92, 246, 0.5)'
+            boxShadow: '0 0 30px rgba(139, 92, 246, 0.5)',
+            position: 'relative',
+            zIndex: 30
           }}
         >
           <span>프롬프트 갤러리 입장하기</span>
@@ -130,7 +139,7 @@ export default function IntroPage({ onEnter }) {
           <FeatureCard 
             icon={<Search style={{ color: '#38bdf8' }} size={24} />}
             title="스타일 & 키워드 검색"
-            desc="Anime, Cinematic, Gaming, Photography 등 30+ 카테고리 실시간 정밀 검색"
+            desc="인물 사진, 시네마틱, 게이밍, 패션 등 19+ 카테고리 실시간 정밀 검색"
           />
           <FeatureCard 
             icon={<Copy style={{ color: '#c084fc' }} size={24} />}
@@ -139,8 +148,8 @@ export default function IntroPage({ onEnter }) {
           />
           <FeatureCard 
             icon={<PlusCircle style={{ color: '#4ade80' }} size={24} />}
-            title="프롬프트 추가 & 삭제"
-            desc="나만의 프롬프트를 갤러리에 자유롭게 등록하고 필요시 손쉽게 삭제"
+            title="프롬프트 추가 & 파일 업로드"
+            desc="내 컴퓨터 파일 업로드 및 웹 URL로 나만의 프롬프트 갤러리 등록"
           />
           <FeatureCard 
             icon={<Database style={{ color: '#f472b6' }} size={24} />}
