@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PromptCard from './PromptCard';
-import { SearchX, RotateCcw } from 'lucide-react';
+import { SearchX, RotateCcw, ChevronDown } from 'lucide-react';
+
+const PAGE_SIZE = 36;
 
 export default function PromptGrid({ 
   prompts, 
@@ -11,6 +13,28 @@ export default function PromptGrid({
   onDeletePrompt,
   onResetSearch
 }) {
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Reset pagination count whenever prompts change (e.g. category or search changes)
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [prompts]);
+
+  // Infinite Scroll Trigger
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
+        visibleCount < prompts.length
+      ) {
+        setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length));
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [visibleCount, prompts.length]);
+
   if (prompts.length === 0) {
     return (
       <div style={{
@@ -52,6 +76,9 @@ export default function PromptGrid({
     );
   }
 
+  const visiblePrompts = prompts.slice(0, visibleCount);
+  const hasMore = visibleCount < prompts.length;
+
   return (
     <div style={{
       maxWidth: '1300px',
@@ -63,7 +90,7 @@ export default function PromptGrid({
         gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
         gap: '1.5rem'
       }}>
-        {prompts.map((item) => (
+        {visiblePrompts.map((item) => (
           <PromptCard
             key={item.id}
             promptItem={item}
@@ -75,6 +102,35 @@ export default function PromptGrid({
           />
         ))}
       </div>
+
+      {/* Load More Button & Infinite Scroll Indicator */}
+      {hasMore && (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: '3rem',
+          gap: '0.75rem'
+        }}>
+          <button
+            onClick={() => setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length))}
+            className="btn-secondary"
+            style={{
+              padding: '0.75rem 2rem',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '0.95rem',
+              fontWeight: '600',
+              background: 'rgba(139, 92, 246, 0.15)',
+              border: '1px solid rgba(139, 92, 246, 0.3)',
+              color: '#c084fc'
+            }}
+          >
+            <span>더 많은 프롬프트 불러오기 ({prompts.length - visibleCount}개 남음)</span>
+            <ChevronDown size={18} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

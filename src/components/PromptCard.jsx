@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Copy, Check, Star, Sparkles, Trash2, Image as ImageIcon, MessageSquareText } from 'lucide-react';
+import { Copy, Check, Star, Trash2, MessageSquareText } from 'lucide-react';
 
 export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked, onToggleBookmark, onDeletePrompt }) {
   const [copied, setCopied] = useState(false);
@@ -26,7 +26,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
     }
   };
 
-  // Dynamic aesthetic fallback background for text-only prompts
   const categoryGradients = [
     'linear-gradient(135deg, rgba(139,92,246,0.3) 0%, rgba(59,130,246,0.2) 100%)',
     'linear-gradient(135deg, rgba(6,182,212,0.3) 0%, rgba(139,92,246,0.2) 100%)',
@@ -34,7 +33,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
     'linear-gradient(135deg, rgba(34,197,94,0.3) 0%, rgba(59,130,246,0.2) 100%)'
   ];
 
-  // Hash title to pick consistent gradient index
   const hash = promptItem.title ? promptItem.title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0) : 0;
   const gradientBg = categoryGradients[hash % categoryGradients.length];
 
@@ -51,14 +49,13 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
         flexDirection: 'column',
         cursor: 'pointer',
         position: 'relative',
-        minHeight: '340px'
+        minHeight: '320px'
       }}
     >
-      {/* Image / Header Artwork Container */}
       <div style={{
         position: 'relative',
         width: '100%',
-        paddingTop: hasValidImage ? '65%' : '45%',
+        paddingTop: hasValidImage ? '65%' : '42%',
         background: gradientBg,
         overflow: 'hidden',
         transition: 'padding-top 0.3s ease'
@@ -67,6 +64,8 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           <img
             src={promptItem.imageUrl}
             alt={promptItem.title}
+            loading="lazy"
+            decoding="async"
             onLoad={() => setImgLoaded(true)}
             onError={() => setImgError(true)}
             style={{
@@ -77,7 +76,7 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
               height: '100%',
               objectFit: 'cover',
               opacity: imgLoaded ? 1 : 0,
-              transition: 'opacity 0.4s ease, transform 0.4s ease'
+              transition: 'opacity 0.3s ease'
             }}
             className="card-image"
           />
@@ -93,18 +92,17 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
             alignItems: 'center',
             justifyContent: 'center',
             color: '#f3f4f6',
-            padding: '1.25rem',
+            padding: '1rem',
             textAlign: 'center',
             background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)'
           }}>
-            <MessageSquareText size={32} style={{ color: 'var(--accent-cyan)', marginBottom: '0.5rem', opacity: 0.85 }} />
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: '500' }}>
+            <MessageSquareText size={28} style={{ color: 'var(--accent-cyan)', marginBottom: '0.4rem', opacity: 0.85 }} />
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '500' }}>
               GPT-Image2 Text Prompt
             </span>
           </div>
         )}
 
-        {/* Category Badge */}
         <div style={{
           position: 'absolute',
           top: '0.75rem',
@@ -125,7 +123,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
           {promptItem.category}
         </div>
 
-        {/* Top Right Action Buttons */}
         <div style={{
           position: 'absolute',
           top: '0.75rem',
@@ -174,7 +171,6 @@ export default function PromptCard({ promptItem, onSelect, onCopy, isBookmarked,
         </div>
       </div>
 
-      {/* Content Section */}
       <div style={{
         padding: '1.15rem',
         display: 'flex',
