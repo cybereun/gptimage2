@@ -2,7 +2,7 @@
 
 # 🖼️ GPT-Image2 Prompt Skill Hub & Gallery
 
-> **Empowering your AI Image Generation with 160+ curated prompts, 30+ style categories, 1-click clipboard copy, and optional Google Firebase cloud sync.**
+> **Empowering your AI Image Generation with 2,400+ curated prompts, 30+ style categories, 1-click clipboard copy, and optional Google Firebase cloud sync.**
 
 [![Developer](https://img.shields.io/badge/Developer-Lebi__Cybereun-FF4081?style=for-the-badge&logo=github&logoColor=white)](https://github.com/cybereun)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
@@ -28,14 +28,14 @@
 ## 🇰🇷 한국어 가이드
 
 ### 📌 프로젝트 소개
-**GPT-Image2 Prompt Skill Hub**는 DALL-E 3 및 GPT-Image2 생성에 최적화된 프롬프트 갤러리 웹앱입니다.  
-`wuyoscar/GPT-Image2-Skill` 리포지토리의 방대한 30여 개 카테고리, 160개 이상의 프롬프트를 바탕으로 원하는 스타일의 이미지를 검색하고 클릭 한 번으로 프롬프트를 복사하여 사용할 수 있습니다.
+**GPT-Image2 Prompt Skill Hub**는 DALL-E 3 및 GPT-Image2 생성에 최적화된 초대형 프롬프트 갤러리 웹앱입니다.  
+주요 오픈소스 리포지토리들로부터 수집된 **2,480개 이상의 정제된 프롬프트**를 바탕으로 원하는 스타일의 이미지를 검색하고 클릭 한 번으로 프롬프트를 복사하여 사용할 수 있습니다.
 
 ### ✨ 주요 기능
-- **🎨 비주얼 인트로 랜딩 페이지**: 감각적인 다크 네온 글래스모피즘 랜딩 화면 제공.
+- **🎨 비주얼 인트로 랜딩 페이지**: React Bits의 WebGL Lightfall 셰이더 다크 네온 모던 에스테틱.
 - **⚡ 1-Click 프롬프트 복사**: 클릭 한 번으로 클립보드 복사 및 Toast 알림 표시.
-- **🔍 실시간 정밀 검색**: 제목, 카테고리, 키워드, 태그 기준 실시간 검색.
-- **🏷️ 30+ 스타일 카테고리**: Anime, Cinematic, Photography, Gaming, Fine Art, UI/UX, Cyberpunk 등.
+- **🔍 실시간 정밀 검색**: 제목, 카테고리, 키워드, 태그 기준 2,400+ 프롬프트 실시간 검색.
+- **🏷️ 30+ 스타일 카테고리**: Anime, Cinematic, Photography, Gaming, Fine Art, UI/UX, Awesome Library 등.
 - **➕ 커스텀 프롬프트 추가 & 삭제**: 나만의 프롬프트를 갤러리에 추가하거나 원치 않는 항목 삭제 가능.
 - **☁️ Firebase (무료 DB) & LocalStorage 하이브리드**: 설정이 없어도 로컬스토리지로 100% 작동하며, Firebase 연동 시 동기화 지원.
 
@@ -90,8 +90,13 @@ npm run dev
 ---
 
 ### 📜 원본 출처 및 크레딧 (Credits)
-이 프로젝트의 프롬프트 및 이미지 데이터셋 가이드는 아래 오픈소스 리포지토리를 기반으로 제작되었습니다:
-- **Original Skill Repository**: [wuyoscar/GPT-Image2-Skill](https://github.com/wuyoscar/GPT-Image2-Skill.git)
+이 프로젝트의 2,400+ 프롬프트 데이터셋은 아래 6개 대표 오픈소스 리포지토리를 기반으로 제작되었습니다:
+- [wuyoscar/GPT-Image2-Skill](https://github.com/wuyoscar/GPT-Image2-Skill.git)
+- [indreamai/awesome-gpt-image-2-prompts](https://github.com/indreamai/awesome-gpt-image-2-prompts)
+- [moosl/awsome-gpt-image-2-prompts](https://github.com/moosl/awsome-gpt-image-2-prompts)
+- [Kewal-Yaduvanshi/GPT-Image-2-Flow-Workbench](https://github.com/Kewal-Yaduvanshi/GPT-Image-2-Flow-Workbench)
+- [EddieTYP/image-prompt-library](https://github.com/EddieTYP/image-prompt-library)
+- [AtlasCloudAI/awesome-gpt-image-2-prompts](https://github.com/AtlasCloudAI/awesome-gpt-image-2-prompts)
 - **Developer**: [Lebi_Cybereun](https://github.com/cybereun)
 
 ---
@@ -103,19 +108,15 @@ npm run dev
 
 ### 📌 Overview
 **GPT-Image2 Prompt Skill Hub** is a premium gallery web app optimized for GPT-Image2 and DALL-E 3 image generation.  
-Developed by **Lebi_Cybereun**. Explore over 160 curated prompts across 30+ visual categories, search by style, and copy prompt text instantly with 1 click.
+Developed by **Lebi_Cybereun**. Explore over 2,400+ curated prompts across 30+ visual categories from 6 major open-source prompt repositories.
 
 ### ✨ Key Features
-- **🎨 Glassmorphic Intro Landing Page**: Beautiful dark neon intro animation.
+- **🎨 Glassmorphic Intro Landing Page**: Interactive WebGL Lightfall shader background.
 - **⚡ 1-Click Clipboard Copy**: Copy full prompt instantly with Toast notifications.
-- **🔍 Instant Real-time Search**: Search across titles, tags, prompts, and categories.
-- **🏷️ 30+ Style Categories**: Anime, Cinematic, Photography, Gaming, Fine Art, UI/UX, Cyberpunk, etc.
+- **🔍 Instant Real-time Search**: Search across 2,400+ titles, tags, prompts, and categories.
+- **🏷️ 30+ Style Categories**: Anime, Cinematic, Photography, Gaming, Fine Art, UI/UX, Awesome Library, etc.
 - **➕ Custom Add & Delete Prompts**: Register your own prompts or remove unwanted cards easily.
 - **☁️ Firebase & LocalStorage Hybrid Sync**: Works 100% standalone via LocalStorage or syncs with Google Firebase Firestore.
-
-### 🛡️ Security Details
-- **No Hardcoded Secrets**: Zero API keys or private credentials inside the code.
-- **Safe `.gitignore` Configuration**: Enforces exclusions for `.env`, `node_modules`, and `dist`.
 
 ### 💻 Local Setup & Installation
 ```bash
@@ -133,13 +134,13 @@ npm run dev
 ## 🇯🇵 日本語ガイド
 
 ### 📌 概要
-**GPT-Image2 Prompt Skill Hub**は、DALL-E 3およびGPT-Image2の画像生成に最適化されたプロンプトギャラリーWebアプリです。（開発者: **Lebi_Cybereun**）  
-30以上のカテゴリーと160以上のプロンプトからお気に入りのスタイルを検索し、ワンクリックでプロンプトをコピーして利用できます。
+**GPT-Image2 Prompt Skill Hub**は、DALL-E 3およびGPT-Image2の画像生成に最適化された超大型プロンプトギャラリーWebアプリです。（開発者: **Lebi_Cybereun**）  
+6つの主要オープンソースから集められた2,400以上のプロンプトからお気に入りのスタイルを検索し、ワンクリックでプロンプトをコピーして利用できます。
 
 ### ✨ 主な機能
-- **🎨 ダークネオングラスモフィズムデザイン**: 魅力的で現代的なインターフェース。
+- **🎨 インタラクティブデザイン**: WebGL Lightfallシェーダーアニメーション。
 - **⚡ ワンクリックプロンプトコピー**: 1秒でクリップボードにコピー＆Toast通知表示。
-- **🔍 リアルタイム高速検索**: タイトル、スタイル、タグから瞬時に検索。
+- **🔍 2,400+リアルタイム高速検索**: タイトル、スタイル、タグから瞬時に検索。
 - **➕ プロンプト追加・削除機能**: 独自のプロンプトを追加・削除して自由に管理。
 - **☁️ Firebase（無料DB）＆ LocalStorage ハイブリッド同期**: Firebase非設定時でもLocalStorageで100%正常動作。
 
