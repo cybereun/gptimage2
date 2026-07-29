@@ -1,8 +1,8 @@
 import React from 'react';
 import { 
-  User, Tv, Film, Gamepad2, 
-  Shirt, ShoppingBag, Dog, Car, Building2, Trees, 
-  MapPin, BarChart3, Type, Palette, Box, Grid, Star, Layers, AlertTriangle, FileText
+  User, Tv, Film, 
+  ShoppingBag, Dog, Car, Building2, Trees, 
+  Box, Grid, Star, Layers, AlertTriangle, FileText, Sparkles
 } from 'lucide-react';
 
 const iconMap = {
@@ -10,28 +10,20 @@ const iconMap = {
   User: <User size={16} />,
   Tv: <Tv size={16} />,
   Film: <Film size={16} />,
-  Gamepad2: <Gamepad2 size={16} />,
-  Shirt: <Shirt size={16} />,
   ShoppingBag: <ShoppingBag size={16} />,
   Dog: <Dog size={16} />,
   Car: <Car size={16} />,
   Building2: <Building2 size={16} />,
   Trees: <Trees size={16} />,
-  MapPin: <MapPin size={16} />,
-  BarChart3: <BarChart3 size={16} />,
-  Type: <Type size={16} />,
-  Palette: <Palette size={16} />,
   Box: <Box size={16} />,
   FileText: <FileText size={16} />,
+  Sparkles: <Sparkles size={16} />,
   Grid: <Grid size={16} />
 };
 
 export default function Sidebar({ categories, activeCategory, setActiveCategory, totalCount }) {
   const noImgCategory = categories.find(c => c.name === '⚠️ 이미지 없음 (작업용)');
-  const personGroup = categories.filter(c => ['인물 사진 / 셀카'].includes(c.name));
-  const styleGroup = categories.filter(c => ['애니메이션 & 만화', '영화 & 시네마틱', '게이밍 & 판타지', '유화 / 수채화 / 미술'].includes(c.name));
-  const topicGroup = categories.filter(c => ['패션 & 라이프스타일', '제품 / 음식 / 아이템', '동물 / 생명체', '차량 / 수송기기', '건축 / 인테리어', '풍경 / 자연', '도시 풍경 / 스트리트'].includes(c.name));
-  const designGroup = categories.filter(c => ['📋 브랜드 & 제품 디자인 가이드', '3D & UI / UX', '텍스트 / 포스터', '다이어그램 / 차트', '기타 갤러리'].includes(c.name));
+  const mainCategories = categories.filter(c => c.name !== '⚠️ 이미지 없음 (작업용)' && c.name !== 'Bookmarks');
   const bookmarksCategory = categories.find(c => c.name === 'Bookmarks');
 
   return (
@@ -168,108 +160,71 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
         )}
       </div>
 
-      {/* SECTION 1: 🔥 인물 생성 */}
-      <SidebarGroup 
-        title="🔥 인물 생성 (통합 대표)" 
-        items={personGroup} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory}
-        isHighlight={true}
-      />
+      {/* RE-ORGANIZED CATEGORIES */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div style={{
+          fontSize: '0.78rem',
+          fontWeight: '700',
+          color: 'var(--accent-pink)',
+          letterSpacing: '0.02em',
+          paddingLeft: '0.2rem',
+          textTransform: 'uppercase'
+        }}>
+          🎨 프롬프트 테마 카테고리
+        </div>
 
-      {/* SECTION 2: 🎨 예술 & 스타일 */}
-      <SidebarGroup 
-        title="🎨 예술 & 스타일" 
-        items={styleGroup} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
-      />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+          {mainCategories.map(cat => {
+            const isActive = activeCategory === cat.name;
+            const isPerson = cat.name.includes('인물');
+            const icon = iconMap[cat.icon] || <Grid size={16} />;
 
-      {/* SECTION 3: 🛍️ 주제 & 피사체 */}
-      <SidebarGroup 
-        title="🛍️ 주제 & 피사체" 
-        items={topicGroup} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
-      />
-
-      {/* SECTION 4: 📐 그래픽 & 디자인 */}
-      <SidebarGroup 
-        title="📐 그래픽 & 디자인" 
-        items={designGroup} 
-        activeCategory={activeCategory} 
-        setActiveCategory={setActiveCategory} 
-      />
+            return (
+              <button
+                key={cat.name}
+                onClick={() => setActiveCategory(cat.name)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0.55rem 0.85rem',
+                  borderRadius: 'var(--radius-md)',
+                  background: isActive 
+                    ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))' 
+                    : isPerson ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.03)',
+                  border: isActive 
+                    ? 'none' 
+                    : isPerson ? '1px solid rgba(139, 92, 246, 0.3)' : '1px solid transparent',
+                  color: isActive ? '#fff' : isPerson ? '#e9d5ff' : 'var(--text-muted)',
+                  fontWeight: isActive ? '600' : '400',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: isActive ? '0 4px 14px rgba(139, 92, 246, 0.35)' : 'none'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
+                  <span style={{ color: isActive ? '#fff' : isPerson ? '#c084fc' : 'var(--text-subtle)', flexShrink: 0 }}>
+                    {icon}
+                  </span>
+                  <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {cat.name}
+                  </span>
+                </div>
+                <span style={{
+                  fontSize: '0.72rem',
+                  background: isActive ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.3)',
+                  padding: '0.1rem 0.45rem',
+                  borderRadius: 'var(--radius-full)',
+                  flexShrink: 0
+                }}>
+                  {cat.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </aside>
-  );
-}
-
-function SidebarGroup({ title, items, activeCategory, setActiveCategory, isHighlight }) {
-  if (!items || items.length === 0) return null;
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-      <div style={{
-        fontSize: '0.78rem',
-        fontWeight: '700',
-        color: isHighlight ? 'var(--accent-pink)' : 'var(--text-subtle)',
-        letterSpacing: '0.02em',
-        paddingLeft: '0.2rem',
-        textTransform: 'uppercase'
-      }}>
-        {title}
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-        {items.map(cat => {
-          const isActive = activeCategory === cat.name;
-          const icon = iconMap[cat.icon] || <Grid size={16} />;
-
-          return (
-            <button
-              key={cat.name}
-              onClick={() => setActiveCategory(cat.name)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '0.55rem 0.85rem',
-                borderRadius: 'var(--radius-md)',
-                background: isActive 
-                  ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))' 
-                  : isHighlight ? 'rgba(139, 92, 246, 0.08)' : 'rgba(255, 255, 255, 0.03)',
-                border: isActive 
-                  ? 'none' 
-                  : isHighlight ? '1px solid rgba(139, 92, 246, 0.25)' : '1px solid transparent',
-                color: isActive ? '#fff' : isHighlight ? '#e9d5ff' : 'var(--text-muted)',
-                fontWeight: isActive ? '600' : '400',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: isActive ? '0 4px 14px rgba(139, 92, 246, 0.35)' : 'none'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
-                <span style={{ color: isActive ? '#fff' : isHighlight ? '#c084fc' : 'var(--text-subtle)', flexShrink: 0 }}>
-                  {icon}
-                </span>
-                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {cat.name}
-                </span>
-              </div>
-              <span style={{
-                fontSize: '0.72rem',
-                background: isActive ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.3)',
-                padding: '0.1rem 0.45rem',
-                borderRadius: 'var(--radius-full)',
-                flexShrink: 0
-              }}>
-                {cat.count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
   );
 }

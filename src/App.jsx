@@ -86,23 +86,17 @@ export default function App() {
 
     const categoryList = [
       { name: "⚠️ 이미지 없음 (작업용)", icon: "AlertTriangle" },
-      { name: "인물 사진 / 셀카", icon: "User" },
-      { name: "애니메이션 & 만화", icon: "Tv" },
-      { name: "영화 & 시네마틱", icon: "Film" },
-      { name: "게이밍 & 판타지", icon: "Gamepad2" },
-      { name: "패션 & 라이프스타일", icon: "Shirt" },
-      { name: "제품 / 음식 / 아이템", icon: "ShoppingBag" },
-      { name: "동물 / 생명체", icon: "Dog" },
-      { name: "차량 / 수송기기", icon: "Car" },
-      { name: "건축 / 인테리어", icon: "Building2" },
-      { name: "풍경 / 자연", icon: "Trees" },
-      { name: "도시 풍경 / 스트리트", icon: "MapPin" },
-      { name: "📋 브랜드 & 제품 디자인 가이드", icon: "FileText" },
-      { name: "3D & UI / UX", icon: "Box" },
-      { name: "텍스트 / 포스터", icon: "Type" },
-      { name: "유화 / 수채화 / 미술", icon: "Palette" },
-      { name: "다이어그램 / 차트", icon: "BarChart3" },
-      { name: "기타 갤러리", icon: "Grid" }
+      { name: "👩‍🦰 인물 사진 & 포트레이트", icon: "User" },
+      { name: "🎨 애니메이션 & 만화 일러스트", icon: "Tv" },
+      { name: "📋 브랜딩 & 디자인 가이드보드", icon: "FileText" },
+      { name: "🐱 동물 & 캐릭터 생명체", icon: "Dog" },
+      { name: "🛍️ 제품 & 음식 & 상업 화보", icon: "ShoppingBag" },
+      { name: "📐 3D 아트 & UI/UX & 디자인", icon: "Box" },
+      { name: "🏎️ 차량 & 수송기기", icon: "Car" },
+      { name: "🏞️ 자연 & 풍경 & 스트리트", icon: "Trees" },
+      { name: "🎬 시네마틱 & 영화 비주얼", icon: "Film" },
+      { name: "🏛️ 건축 & 인테리어 공간", icon: "Building2" },
+      { name: "✨ 아트 & 스페셜 갤러리", icon: "Sparkles" }
     ];
 
     return categoryList.map(cat => ({
