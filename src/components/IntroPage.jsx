@@ -16,7 +16,7 @@ export default function IntroPage({ onEnter }) {
       padding: '2rem 1.5rem',
       background: '#090a0f'
     }}>
-      {/* Background Interactive WebGL Lightfall Shader */}
+      {/* Minimalistic & Elegant WebGL Lightfall Shader (Minimum Streaks) */}
       <div style={{
         position: 'absolute',
         top: 0,
@@ -24,28 +24,28 @@ export default function IntroPage({ onEnter }) {
         width: '100%',
         height: '100%',
         zIndex: 1,
-        opacity: 0.85
+        opacity: 0.55
       }}>
         <Lightfall
-          colors={['#8B5CF6', '#3B82F6', '#06B6D4', '#EC4899']}
+          colors={['#8B5CF6', '#3B82F6', '#06B6D4']}
           backgroundColor="#090A0F"
-          speed={0.8}
-          streakCount={6}
-          streakWidth={1.2}
-          streakLength={1.5}
-          glow={1.2}
-          density={0.8}
-          twinkle={1}
-          zoom={2.2}
-          backgroundGlow={0.6}
-          opacity={0.9}
+          speed={0.4}
+          streakCount={1}
+          streakWidth={0.8}
+          streakLength={1.0}
+          glow={0.7}
+          density={0.1}
+          twinkle={0.5}
+          zoom={1.8}
+          backgroundGlow={0.3}
+          opacity={0.55}
           mouseInteraction={true}
-          mouseStrength={1.2}
-          mouseRadius={0.7}
+          mouseStrength={1.0}
+          mouseRadius={0.8}
         />
       </div>
 
-      {/* Content Container (Overlay on top of Lightfall) */}
+      {/* Content Container */}
       <div style={{
         position: 'relative',
         zIndex: 10,
