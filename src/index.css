@@ -173,6 +173,19 @@ code, pre {
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* Bouncy Capsule Button Animation */
+.bouncy-btn {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+.bouncy-btn:hover:not(:disabled) {
+  transform: scale(1.03) translateY(-2px);
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+.bouncy-btn:active:not(:disabled) {
+  transform: scale(0.97) translateY(1px);
+  transition: all 0.1s ease !important;
+}
+
 /* Masonry Layout */
 .masonry-grid {
   column-count: 4;

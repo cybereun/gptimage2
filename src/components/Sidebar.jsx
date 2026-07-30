@@ -68,27 +68,33 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
       {/* WORKSHOP CATEGORY: ⚠️ 이미지 없음 (작업용) High Priority Button */}
       {noImgCategory && (
         <button
+          className="bouncy-btn"
           onClick={() => setActiveCategory('⚠️ 이미지 없음 (작업용)')}
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0.85rem 1rem',
-            borderRadius: 'var(--radius-md)',
+            padding: '0.65rem 1.1rem',
+            borderRadius: '50px',
             background: activeCategory === '⚠️ 이미지 없음 (작업용)'
               ? 'linear-gradient(135deg, #f59e0b, #ef4444)'
-              : 'rgba(245, 158, 11, 0.18)',
-            border: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'none' : '1.5px solid rgba(245, 158, 11, 0.5)',
+              : 'rgba(245, 158, 11, 0.15)',
+            border: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'none' : '1px solid rgba(245, 158, 11, 0.3)',
             color: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '#fff' : '#fef08a',
             fontWeight: '800',
             fontSize: '1.02rem',
             cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            boxShadow: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '0 4px 18px rgba(245, 158, 11, 0.45)' : 'none'
+            boxShadow: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '0 6px 20px -4px rgba(245, 158, 11, 0.6)' : 'none'
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-            <AlertTriangle size={20} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: '32px', height: '32px', borderRadius: '50%',
+              background: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'rgba(0,0,0,0.2)' : 'rgba(245, 158, 11, 0.2)'
+            }}>
+              <AlertTriangle size={16} />
+            </div>
             <span style={{ lineHeight: '1.3' }}>⚠️ 이미지 없음<br/>(작업용)</span>
           </div>
           <span style={{
@@ -104,59 +110,72 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
       )}
 
       {/* All & Bookmarks Quick Buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
         <button
+          className="bouncy-btn"
           onClick={() => setActiveCategory('All')}
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0.75rem 1rem',
-            borderRadius: 'var(--radius-md)',
+            padding: '0.65rem 1.1rem',
+            borderRadius: '50px',
             background: activeCategory === 'All' 
               ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))' 
-              : 'rgba(255, 255, 255, 0.05)',
-            border: activeCategory === 'All' ? 'none' : '1px solid var(--glass-border)',
+              : 'rgba(255, 255, 255, 0.03)',
+            border: activeCategory === 'All' ? 'none' : '1px solid rgba(255, 255, 255, 0.06)',
             color: activeCategory === 'All' ? '#fff' : 'var(--text-main)',
-            fontWeight: activeCategory === 'All' ? '700' : '600',
+            fontWeight: activeCategory === 'All' ? '800' : '700',
             fontSize: '1.02rem',
             cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            boxShadow: activeCategory === 'All' ? '0 4px 16px rgba(139, 92, 246, 0.4)' : 'none'
+            boxShadow: activeCategory === 'All' ? '0 6px 20px -4px rgba(139, 92, 246, 0.6)' : 'none'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <Grid size={20} />
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: '32px', height: '32px', borderRadius: '50%',
+              background: activeCategory === 'All' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.08)'
+            }}>
+              <Grid size={16} />
+            </div>
             <span>전체 프롬프트</span>
           </div>
-          <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '700' }}>{totalCount}</span>
+          <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{totalCount}</span>
         </button>
 
         {bookmarksCategory && (
           <button
+            className="bouncy-btn"
             onClick={() => setActiveCategory('Bookmarks')}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: '0.75rem 1rem',
-              borderRadius: 'var(--radius-md)',
+              padding: '0.65rem 1.1rem',
+              borderRadius: '50px',
               background: activeCategory === 'Bookmarks' 
-                ? 'rgba(234, 179, 8, 0.3)' 
-                : 'rgba(255, 255, 255, 0.05)',
-              border: activeCategory === 'Bookmarks' ? '1.5px solid rgba(234, 179, 8, 0.6)' : '1px solid var(--glass-border)',
-              color: activeCategory === 'Bookmarks' ? '#fde047' : 'var(--text-main)',
-              fontWeight: activeCategory === 'Bookmarks' ? '700' : '600',
+                ? 'linear-gradient(135deg, #f59e0b, #fcd34d)' 
+                : 'rgba(255, 255, 255, 0.03)',
+              border: activeCategory === 'Bookmarks' ? 'none' : '1px solid rgba(255, 255, 255, 0.06)',
+              color: activeCategory === 'Bookmarks' ? '#000' : 'var(--text-main)',
+              fontWeight: activeCategory === 'Bookmarks' ? '800' : '700',
               fontSize: '1.02rem',
               cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              boxShadow: activeCategory === 'Bookmarks' ? '0 6px 20px -4px rgba(245, 158, 11, 0.5)' : 'none'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <Star size={20} fill={activeCategory === 'Bookmarks' ? '#fde047' : 'none'} style={{ color: '#fde047' }} />
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '32px', height: '32px', borderRadius: '50%',
+                background: activeCategory === 'Bookmarks' ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.08)'
+              }}>
+                <Star size={16} fill={activeCategory === 'Bookmarks' ? '#000' : 'none'} style={{ color: activeCategory === 'Bookmarks' ? '#000' : '#fde047' }} />
+              </div>
               <span>즐겨찾기 목록</span>
             </div>
-            <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '700' }}>{bookmarksCategory.count}</span>
+            <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{bookmarksCategory.count}</span>
           </button>
         )}
       </div>
@@ -183,36 +202,42 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             return (
               <button
                 key={cat.name}
+                className="bouncy-btn"
                 onClick={() => setActiveCategory(cat.name)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '0.75rem 0.95rem',
-                  borderRadius: 'var(--radius-md)',
+                  padding: '0.6rem 1.1rem',
+                  borderRadius: '50px',
                   background: isActive 
-                    ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-blue))' 
-                    : isPerson ? 'rgba(139, 92, 246, 0.14)' : 'rgba(255, 255, 255, 0.05)',
+                    ? 'linear-gradient(135deg, var(--accent-purple), var(--accent-pink))' 
+                    : isPerson ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.03)',
                   border: isActive 
                     ? 'none' 
-                    : isPerson ? '1px solid rgba(139, 92, 246, 0.4)' : '1px solid transparent',
+                    : isPerson ? '1px solid rgba(139, 92, 246, 0.2)' : '1px solid rgba(255,255,255,0.04)',
                   color: isActive ? '#fff' : isPerson ? '#f3e8ff' : '#f8fafc',
                   fontWeight: isActive ? '800' : '700',
                   fontSize: '1.02rem',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  boxShadow: isActive ? '0 4px 16px rgba(139, 92, 246, 0.4)' : 'none'
+                  boxShadow: isActive ? '0 6px 20px -4px rgba(236, 72, 153, 0.5)' : 'none'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: 0 }}>
-                  <span style={{ color: isActive ? '#fff' : isPerson ? '#d8b4fe' : '#94a3b8', flexShrink: 0 }}>
+                  <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: '32px', height: '32px', borderRadius: '50%',
+                    background: isActive ? 'rgba(0,0,0,0.2)' : isPerson ? 'rgba(139, 92, 246, 0.2)' : 'rgba(255,255,255,0.08)',
+                    color: isActive ? '#fff' : isPerson ? '#d8b4fe' : '#94a3b8',
+                    flexShrink: 0
+                  }}>
                     {icon}
-                  </span>
+                  </div>
                   <span style={{ 
                     whiteSpace: 'normal',
                     wordBreak: 'keep-all',
                     lineHeight: '1.38',
-                    fontSize: '1.02rem',
+                    fontSize: '0.98rem',
                     textAlign: 'left',
                     letterSpacing: '-0.02em'
                   }}>
