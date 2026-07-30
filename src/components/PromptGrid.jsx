@@ -21,12 +21,21 @@ export default function PromptGrid({
   }, [prompts]);
 
   useEffect(() => {
+    let isThrottled = false;
+
     const handleScroll = () => {
+      if (isThrottled) return;
+
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 800 &&
         visibleCount < prompts.length
       ) {
+        isThrottled = true;
         setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length));
+        
+        setTimeout(() => {
+          isThrottled = false;
+        }, 500);
       }
     };
 
@@ -84,22 +93,19 @@ export default function PromptGrid({
       margin: '1.5rem auto 4rem',
       padding: '0 1.5rem'
     }}>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
-        gap: '1.5rem'
-      }}>
+      <div className="masonry-grid">
         {visiblePrompts.map((item) => (
-          <PromptCard
-            key={item.id}
-            promptItem={item}
-            onSelectPrompt={onSelectPrompt}
-            onCopyPrompt={onCopyPrompt}
-            isBookmarked={bookmarks.includes(item.id)}
-            onToggleBookmark={onToggleBookmark}
-            isAdminMode={isAdminMode}
-            onDeletePrompt={onDeletePrompt}
-          />
+          <div key={item.id} className="masonry-item">
+            <PromptCard
+              promptItem={item}
+              onSelectPrompt={onSelectPrompt}
+              onCopyPrompt={onCopyPrompt}
+              isBookmarked={bookmarks.includes(item.id)}
+              onToggleBookmark={onToggleBookmark}
+              isAdminMode={isAdminMode}
+              onDeletePrompt={onDeletePrompt}
+            />
+          </div>
         ))}
       </div>
 
