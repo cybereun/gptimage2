@@ -157,14 +157,7 @@ export default function App() {
         />
 
         {/* Main Content Layout (Sidebar + Grid) */}
-        <main style={{
-          maxWidth: '1300px',
-          margin: '2rem auto 0',
-          padding: '0 1.5rem',
-          display: 'flex',
-          gap: '1.5rem',
-          alignItems: 'flex-start'
-        }}>
+        <main className="main-layout">
           <Sidebar
             categories={[
               ...categoryCounts,

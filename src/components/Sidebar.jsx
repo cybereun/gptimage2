@@ -27,28 +27,9 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
   const bookmarksCategory = categories.find(c => c.name === 'Bookmarks');
 
   return (
-    <aside className="sidebar-container" style={{
-      width: '310px',
-      flexShrink: 0,
-      borderRadius: 'var(--radius-lg)',
-      padding: '1.4rem 1.1rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '1.5rem',
-      height: 'fit-content',
-      position: 'sticky',
-      top: '90px',
-      maxHeight: 'calc(100vh - 110px)',
-      overflowY: 'auto'
-    }}>
+    <aside className="sidebar-container">
       {/* Header Info */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingBottom: '0.85rem',
-        borderBottom: '1px solid var(--glass-border)'
-      }}>
+      <div className="sidebar-header-text">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontWeight: '800', fontSize: '1.15rem', color: '#fff' }}>
           <Layers size={22} style={{ color: 'var(--accent-purple)' }} />
           <span>카테고리 탐색</span>
@@ -111,7 +92,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
       )}
 
       {/* All & Bookmarks Quick Buttons */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+      <div className="sidebar-section">
         <button
           className="bouncy-btn"
           data-tooltip="전체 프롬프트"
@@ -183,20 +164,13 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
         )}
       </div>
 
-      {/* RE-ORGANIZED CATEGORIES WITH 2-LINE WRAPPING & BIGGER FONTS */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-        <div style={{
-          fontSize: '0.88rem',
-          fontWeight: '800',
-          color: 'var(--accent-pink)',
-          letterSpacing: '0.03em',
-          paddingLeft: '0.2rem',
-          textTransform: 'uppercase'
-        }}>
+      {/* RE-ORGANIZED CATEGORIES */}
+      <div className="sidebar-section">
+        <div className="sidebar-theme-header">
           🎨 테마별 프롬프트
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div className="sidebar-section">
           {mainCategories.map(cat => {
             const isActive = activeCategory === cat.name;
             const isPerson = cat.name.includes('인물');
