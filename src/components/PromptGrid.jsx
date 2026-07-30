@@ -21,12 +21,22 @@ export default function PromptGrid({
   }, [prompts]);
 
   useEffect(() => {
+    let isThrottled = false;
+
     const handleScroll = () => {
+      if (isThrottled) return;
+
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 800 &&
         visibleCount < prompts.length
       ) {
+        isThrottled = true;
         setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length));
+        
+        // 0.5초 동안 추가 로딩 방지 (브라우저 과부하 방지)
+        setTimeout(() => {
+          isThrottled = false;
+        }, 500);
       }
     };
 
