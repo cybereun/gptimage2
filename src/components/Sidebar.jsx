@@ -27,7 +27,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
   const bookmarksCategory = categories.find(c => c.name === 'Bookmarks');
 
   return (
-    <aside className="glass-panel" style={{
+    <aside className="sidebar-container" style={{
       width: '310px',
       flexShrink: 0,
       borderRadius: 'var(--radius-lg)',
@@ -69,6 +69,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
       {noImgCategory && (
         <button
           className="bouncy-btn"
+          data-tooltip="⚠️ 이미지 없음 (작업용)"
           onClick={() => setActiveCategory('⚠️ 이미지 없음 (작업용)')}
           style={{
             display: 'flex',
@@ -95,9 +96,9 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             }}>
               <AlertTriangle size={16} />
             </div>
-            <span style={{ lineHeight: '1.3' }}>⚠️ 이미지 없음<br/>(작업용)</span>
+            <span className="sidebar-text" style={{ lineHeight: '1.3' }}>⚠️ 이미지 없음<br/>(작업용)</span>
           </div>
-          <span style={{
+          <span className="sidebar-count" style={{
             fontSize: '0.85rem',
             background: activeCategory === '⚠️ 이미지 없음 (작업용)' ? 'rgba(0,0,0,0.35)' : 'rgba(245, 158, 11, 0.3)',
             padding: '0.2rem 0.65rem',
@@ -113,6 +114,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
         <button
           className="bouncy-btn"
+          data-tooltip="전체 프롬프트"
           onClick={() => setActiveCategory('All')}
           style={{
             display: 'flex',
@@ -139,14 +141,15 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             }}>
               <Grid size={16} />
             </div>
-            <span>전체 프롬프트</span>
+            <span className="sidebar-text">전체 프롬프트</span>
           </div>
-          <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{totalCount}</span>
+          <span className="sidebar-count" style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{totalCount}</span>
         </button>
 
         {bookmarksCategory && (
           <button
             className="bouncy-btn"
+            data-tooltip="즐겨찾기 목록"
             onClick={() => setActiveCategory('Bookmarks')}
             style={{
               display: 'flex',
@@ -173,9 +176,9 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
               }}>
                 <Star size={16} fill={activeCategory === 'Bookmarks' ? '#000' : 'none'} style={{ color: activeCategory === 'Bookmarks' ? '#000' : '#fde047' }} />
               </div>
-              <span>즐겨찾기 목록</span>
+              <span className="sidebar-text">즐겨찾기 목록</span>
             </div>
-            <span style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{bookmarksCategory.count}</span>
+            <span className="sidebar-count" style={{ fontSize: '0.85rem', opacity: 0.9, fontWeight: '800' }}>{bookmarksCategory.count}</span>
           </button>
         )}
       </div>
@@ -203,6 +206,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
               <button
                 key={cat.name}
                 className="bouncy-btn"
+                data-tooltip={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
                 style={{
                   display: 'flex',
@@ -233,7 +237,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
                   }}>
                     {icon}
                   </div>
-                  <span style={{ 
+                  <span className="sidebar-text" style={{ 
                     whiteSpace: 'normal',
                     wordBreak: 'keep-all',
                     lineHeight: '1.38',
@@ -244,7 +248,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
                     {cat.name}
                   </span>
                 </div>
-                <span style={{
+                <span className="sidebar-count" style={{
                   fontSize: '0.85rem',
                   fontWeight: '800',
                   background: isActive ? 'rgba(255, 255, 255, 0.28)' : 'rgba(0, 0, 0, 0.5)',
