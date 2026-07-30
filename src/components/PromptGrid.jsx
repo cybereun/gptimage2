@@ -21,22 +21,12 @@ export default function PromptGrid({
   }, [prompts]);
 
   useEffect(() => {
-    let isThrottled = false;
-
     const handleScroll = () => {
-      if (isThrottled) return;
-
       if (
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 800 &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 600 &&
         visibleCount < prompts.length
       ) {
-        isThrottled = true;
         setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length));
-        
-        // 0.5초 동안 추가 로딩 방지 (브라우저 과부하 방지)
-        setTimeout(() => {
-          isThrottled = false;
-        }, 500);
       }
     };
 
@@ -94,19 +84,22 @@ export default function PromptGrid({
       margin: '1.5rem auto 4rem',
       padding: '0 1.5rem'
     }}>
-      <div className="masonry-grid">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
+        gap: '1.5rem'
+      }}>
         {visiblePrompts.map((item) => (
-          <div key={item.id} className="masonry-item">
-            <PromptCard
-              promptItem={item}
-              onSelectPrompt={onSelectPrompt}
-              onCopyPrompt={onCopyPrompt}
-              isBookmarked={bookmarks.includes(item.id)}
-              onToggleBookmark={onToggleBookmark}
-              isAdminMode={isAdminMode}
-              onDeletePrompt={onDeletePrompt}
-            />
-          </div>
+          <PromptCard
+            key={item.id}
+            promptItem={item}
+            onSelectPrompt={onSelectPrompt}
+            onCopyPrompt={onCopyPrompt}
+            isBookmarked={bookmarks.includes(item.id)}
+            onToggleBookmark={onToggleBookmark}
+            isAdminMode={isAdminMode}
+            onDeletePrompt={onDeletePrompt}
+          />
         ))}
       </div>
 

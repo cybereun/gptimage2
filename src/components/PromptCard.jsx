@@ -145,11 +145,9 @@ export default function PromptCard({
       <div style={{
         position: 'relative',
         width: '100%',
+        height: '190px',
         backgroundColor: '#0a0d14',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        overflow: 'hidden'
       }}>
         {hasValidImage ? (
           <img
@@ -158,8 +156,8 @@ export default function PromptCard({
             onError={() => setImageError(true)}
             style={{
               width: '100%',
-              height: 'auto',
-              display: 'block',
+              height: '100%',
+              objectFit: 'cover',
               transition: 'transform 0.5s ease'
             }}
             loading="lazy"
@@ -167,14 +165,14 @@ export default function PromptCard({
         ) : (
           <div style={{
             width: '100%',
-            minHeight: '220px',
+            height: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'linear-gradient(135deg, #1e1b4b, #311042)',
             color: '#fbbf24',
-            padding: '2.5rem 1rem',
+            padding: '1rem',
             textAlign: 'center'
           }}>
             <div style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1px' }}>
