@@ -353,6 +353,29 @@ code, pre {
   }
   
   .bouncy-btn .sidebar-text {
-    white-space: nowrap !important; /* 모바일에서는 줄바꿈 방지 */
+    white-space: nowrap !important;
+  }
+}
+
+/* Navbar Mobile Responsive */
+.nav-brand-subtitle {
+  display: block;
+}
+.nav-add-text {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .nav-brand-subtitle {
+    display: none !important;
+  }
+  .nav-brand-title {
+    font-size: 1.05rem !important; /* 모바일에서 타이틀 약간 축소 */
+  }
+  .nav-add-btn {
+    padding: 0.55rem 0.65rem !important; /* + 아이콘만 남았을 때 균형잡힌 패딩 */
+  }
+  .nav-add-text {
+    display: none !important;
   }
 }

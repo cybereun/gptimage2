@@ -32,7 +32,8 @@ export default function Navbar({
         {/* Logo & Title (Click to return to Intro) */}
         <div 
           onClick={onShowIntro}
-          style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}
+          className="nav-brand"
+          style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer' }}
           title="인트로 화면으로 이동"
         >
           <div style={{
@@ -48,11 +49,11 @@ export default function Navbar({
           }}>
             <Layers size={20} />
           </div>
-          <div>
-            <h1 style={{ fontSize: '1.15rem', fontWeight: '800', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <div className="nav-brand-text-wrapper">
+            <h1 className="nav-brand-title" style={{ fontSize: '1.15rem', fontWeight: '800', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               GPT-Image2
             </h1>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: '500' }}>
+            <span className="nav-brand-subtitle" style={{ fontSize: '0.72rem', color: 'var(--text-subtle)', fontWeight: '500' }}>
               프롬프트 라이브러리
             </span>
           </div>
@@ -160,14 +161,14 @@ export default function Navbar({
 
           <button
             onClick={onOpenAddModal}
-            className="btn-primary"
+            className="btn-primary nav-add-btn"
             style={{
               padding: '0.55rem 1rem',
               fontSize: '0.85rem'
             }}
           >
             <Plus size={16} />
-            <span>새 프롬프트</span>
+            <span className="nav-add-text">새 프롬프트</span>
           </button>
         </div>
       </div>
