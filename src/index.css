@@ -378,4 +378,9 @@ code, pre {
   .nav-add-text {
     display: none !important;
   }
+  
+  /* 버튼 텍스트 강제 줄바꿈 방지 (즐겨찾기, 복사하기 등) */
+  .btn-primary span, .btn-secondary span {
+    white-space: nowrap !important;
+  }
 }
