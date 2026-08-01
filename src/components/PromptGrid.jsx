@@ -34,9 +34,10 @@ export default function PromptGrid({
         isThrottled = true;
         setVisibleCount(prev => Math.min(prev + PAGE_SIZE, prompts.length));
         
+        // Increase throttle time to prevent runaway loading while images render
         setTimeout(() => {
           isThrottled = false;
-        }, 500);
+        }, 1200);
       }
     };
 
@@ -92,16 +93,40 @@ export default function PromptGrid({
   const [colCount, setColCount] = useState(4);
 
   useEffect(() => {
+    let timeoutId;
+    let lastWidth = window.innerWidth;
+
     const updateColCount = () => {
-      if (window.innerWidth <= 600) setColCount(1);
-      else if (window.innerWidth <= 1000) setColCount(2);
-      else if (window.innerWidth <= 1400) setColCount(3);
-      else setColCount(4);
+      const currentWidth = window.innerWidth;
+      
+      // Ignore tiny width fluctuations (like scrollbar appearing/disappearing)
+      if (Math.abs(currentWidth - lastWidth) < 40 && currentWidth !== window.innerWidth) {
+        return;
+      }
+
+      let newColCount = 4;
+      if (currentWidth <= 600) newColCount = 1;
+      else if (currentWidth <= 1000) newColCount = 2;
+      else if (currentWidth <= 1400) newColCount = 3;
+      
+      setColCount(prev => {
+        if (prev !== newColCount) return newColCount;
+        return prev;
+      });
+      lastWidth = currentWidth;
+    };
+    
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateColCount, 250); // Debounce to prevent layout thrashing
     };
     
     updateColCount();
-    window.addEventListener('resize', updateColCount);
-    return () => window.removeEventListener('resize', updateColCount);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Distribute prompts into columns
