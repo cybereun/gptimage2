@@ -45,6 +45,28 @@ export default function PromptGrid({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [visibleCount, prompts.length]);
 
+  // React-based Masonry calculation
+  const [colCount, setColCount] = useState(4);
+
+  useEffect(() => {
+    const mql768 = window.matchMedia('(max-width: 768px)');
+    const mql1024 = window.matchMedia('(max-width: 1024px)');
+    const mql1280 = window.matchMedia('(max-width: 1280px)');
+
+    const updateColCount = () => {
+      if (mql768.matches) setColCount(1);
+      else setColCount(4);
+    };
+
+    updateColCount();
+
+    mql768.addEventListener('change', updateColCount);
+
+    return () => {
+      mql768.removeEventListener('change', updateColCount);
+    };
+  }, []);
+
   if (prompts.length === 0) {
     return (
       <div style={{
@@ -89,56 +111,30 @@ export default function PromptGrid({
   const visiblePrompts = prompts.slice(0, visibleCount);
   const hasMore = visibleCount < prompts.length;
 
-  // React-based Masonry calculation
-  const [colCount, setColCount] = useState(4);
-
-  useEffect(() => {
-    const mql768 = window.matchMedia('(max-width: 768px)');
-    const mql1024 = window.matchMedia('(max-width: 1024px)');
-    const mql1280 = window.matchMedia('(max-width: 1280px)');
-
-    const updateColCount = () => {
-      if (mql768.matches) setColCount(1);
-      else setColCount(4);
-    };
-
-    updateColCount();
-
-    mql768.addEventListener('change', updateColCount);
-
-    return () => {
-      mql768.removeEventListener('change', updateColCount);
-    };
-  }, []);
-
-  // Distribute prompts into columns
-  const columns = Array.from({ length: colCount }, () => []);
-  visiblePrompts.forEach((item, index) => {
-    columns[index % colCount].push(item);
-  });
-
   return (
     <div style={{
       maxWidth: '1300px',
       margin: '1.5rem auto 4rem',
       padding: '0 1.5rem'
     }}>
-      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', width: '100%' }}>
-        {columns.map((col, colIndex) => (
-          <div key={colIndex} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1, minWidth: 0 }}>
-            {col.map((item) => (
-              <PromptCard
-                key={item.id}
-                promptItem={item}
-                onSelectPrompt={onSelectPrompt}
-                onCopyPrompt={onCopyPrompt}
-                isBookmarked={bookmarks.includes(item.id)}
-                onToggleBookmark={onToggleBookmark}
-                isAdminMode={isAdminMode}
-                onDeletePrompt={onDeletePrompt}
-              />
-            ))}
-          </div>
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: `repeat(${colCount}, minmax(0, 1fr))`, 
+        gap: '1.5rem', 
+        width: '100%',
+        alignItems: 'stretch'
+      }}>
+        {visiblePrompts.map((item) => (
+          <PromptCard
+            key={item.id}
+            promptItem={item}
+            onSelectPrompt={onSelectPrompt}
+            onCopyPrompt={onCopyPrompt}
+            isBookmarked={bookmarks.includes(item.id)}
+            onToggleBookmark={onToggleBookmark}
+            isAdminMode={isAdminMode}
+            onDeletePrompt={onDeletePrompt}
+          />
         ))}
       </div>
 
