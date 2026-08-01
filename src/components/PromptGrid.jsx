@@ -99,21 +99,15 @@ export default function PromptGrid({
 
     const updateColCount = () => {
       if (mql768.matches) setColCount(1);
-      else if (mql1024.matches) setColCount(2);
-      else if (mql1280.matches) setColCount(3);
       else setColCount(4);
     };
 
     updateColCount();
 
     mql768.addEventListener('change', updateColCount);
-    mql1024.addEventListener('change', updateColCount);
-    mql1280.addEventListener('change', updateColCount);
 
     return () => {
       mql768.removeEventListener('change', updateColCount);
-      mql1024.removeEventListener('change', updateColCount);
-      mql1280.removeEventListener('change', updateColCount);
     };
   }, []);
 
