@@ -12,13 +12,14 @@ export default function PromptGrid({
   onToggleBookmark,
   onResetSearch,
   isAdminMode,
-  onDeletePrompt
+  onDeletePrompt,
+  resetKey
 }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [prompts]);
+  }, [resetKey]);
 
   useEffect(() => {
     let isThrottled = false;
@@ -87,24 +88,49 @@ export default function PromptGrid({
   const visiblePrompts = prompts.slice(0, visibleCount);
   const hasMore = visibleCount < prompts.length;
 
+  // React-based Masonry calculation
+  const [colCount, setColCount] = useState(4);
+
+  useEffect(() => {
+    const updateColCount = () => {
+      if (window.innerWidth <= 600) setColCount(1);
+      else if (window.innerWidth <= 1000) setColCount(2);
+      else if (window.innerWidth <= 1400) setColCount(3);
+      else setColCount(4);
+    };
+    
+    updateColCount();
+    window.addEventListener('resize', updateColCount);
+    return () => window.removeEventListener('resize', updateColCount);
+  }, []);
+
+  // Distribute prompts into columns
+  const columns = Array.from({ length: colCount }, () => []);
+  visiblePrompts.forEach((item, index) => {
+    columns[index % colCount].push(item);
+  });
+
   return (
     <div style={{
       maxWidth: '1300px',
       margin: '1.5rem auto 4rem',
       padding: '0 1.5rem'
     }}>
-      <div className="masonry-grid">
-        {visiblePrompts.map((item) => (
-          <div key={item.id} className="masonry-item">
-            <PromptCard
-              promptItem={item}
-              onSelectPrompt={onSelectPrompt}
-              onCopyPrompt={onCopyPrompt}
-              isBookmarked={bookmarks.includes(item.id)}
-              onToggleBookmark={onToggleBookmark}
-              isAdminMode={isAdminMode}
-              onDeletePrompt={onDeletePrompt}
-            />
+      <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', width: '100%' }}>
+        {columns.map((col, colIndex) => (
+          <div key={colIndex} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1, minWidth: 0 }}>
+            {col.map((item) => (
+              <PromptCard
+                key={item.id}
+                promptItem={item}
+                onSelectPrompt={onSelectPrompt}
+                onCopyPrompt={onCopyPrompt}
+                isBookmarked={bookmarks.includes(item.id)}
+                onToggleBookmark={onToggleBookmark}
+                isAdminMode={isAdminMode}
+                onDeletePrompt={onDeletePrompt}
+              />
+            ))}
           </div>
         ))}
       </div>

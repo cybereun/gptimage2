@@ -66,7 +66,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             fontWeight: '800',
             fontSize: '1.02rem',
             cursor: 'pointer',
-            boxShadow: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '0 6px 20px -4px rgba(245, 158, 11, 0.6)' : 'none'
+            boxShadow: activeCategory === '⚠️ 이미지 없음 (작업용)' ? '0 0 25px rgba(245, 158, 11, 0.6)' : 'none'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -111,7 +111,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
             fontWeight: activeCategory === 'All' ? '800' : '700',
             fontSize: '1.02rem',
             cursor: 'pointer',
-            boxShadow: activeCategory === 'All' ? '0 6px 20px -4px rgba(139, 92, 246, 0.6)' : 'none'
+            boxShadow: activeCategory === 'All' ? '0 0 25px rgba(139, 92, 246, 0.7)' : 'none'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -146,7 +146,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
               fontWeight: activeCategory === 'Bookmarks' ? '800' : '700',
               fontSize: '1.02rem',
               cursor: 'pointer',
-              boxShadow: activeCategory === 'Bookmarks' ? '0 6px 20px -4px rgba(245, 158, 11, 0.5)' : 'none'
+              boxShadow: activeCategory === 'Bookmarks' ? '0 0 25px rgba(245, 158, 11, 0.6)' : 'none'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -198,7 +198,7 @@ export default function Sidebar({ categories, activeCategory, setActiveCategory,
                   fontWeight: isActive ? '800' : '700',
                   fontSize: '1.02rem',
                   cursor: 'pointer',
-                  boxShadow: isActive ? '0 6px 20px -4px rgba(236, 72, 153, 0.5)' : 'none'
+                  boxShadow: isActive ? '0 0 25px rgba(236, 72, 153, 0.6)' : 'none'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1, minWidth: 0 }}>

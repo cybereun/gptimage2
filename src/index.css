@@ -186,31 +186,30 @@ code, pre {
   transition: all 0.1s ease !important;
 }
 
-/* Masonry Layout */
+/* Masonry Layout replaced with CSS Grid for stable ordering */
 .masonry-grid {
-  column-count: 4;
-  column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
   width: 100%;
 }
 
 @media (max-width: 1400px) {
-  .masonry-grid { column-count: 3; }
+  .masonry-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 1000px) {
-  .masonry-grid { column-count: 2; }
+  .masonry-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
-  .masonry-grid { column-count: 1; }
+  .masonry-grid { grid-template-columns: repeat(1, 1fr); }
 }
 
 .masonry-item {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  margin-bottom: 1.5rem;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* Main Layout Responsive */

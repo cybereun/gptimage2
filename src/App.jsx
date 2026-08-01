@@ -176,6 +176,7 @@ export default function App() {
             ) : (
               <PromptGrid
                 prompts={filteredPrompts}
+                resetKey={`${activeCategory}-${searchQuery}`}
                 onSelectPrompt={setSelectedPrompt}
                 onCopyPrompt={(text) => {}}
                 bookmarks={bookmarks}
