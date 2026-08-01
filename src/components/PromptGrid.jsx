@@ -93,39 +93,27 @@ export default function PromptGrid({
   const [colCount, setColCount] = useState(4);
 
   useEffect(() => {
-    let timeoutId;
-    let lastWidth = window.innerWidth;
+    const mql768 = window.matchMedia('(max-width: 768px)');
+    const mql1024 = window.matchMedia('(max-width: 1024px)');
+    const mql1280 = window.matchMedia('(max-width: 1280px)');
 
     const updateColCount = () => {
-      const currentWidth = window.innerWidth;
-      
-      // Ignore tiny width fluctuations (like scrollbar appearing/disappearing)
-      if (Math.abs(currentWidth - lastWidth) < 100 && currentWidth !== lastWidth) {
-        return;
-      }
+      if (mql768.matches) setColCount(1);
+      else if (mql1024.matches) setColCount(2);
+      else if (mql1280.matches) setColCount(3);
+      else setColCount(4);
+    };
 
-      let newColCount = 4;
-      if (currentWidth <= 768) newColCount = 1;
-      else if (currentWidth <= 1024) newColCount = 2;
-      else if (currentWidth <= 1280) newColCount = 3;
-      
-      setColCount(prev => {
-        if (prev !== newColCount) return newColCount;
-        return prev;
-      });
-      lastWidth = currentWidth;
-    };
-    
-    const handleResize = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(updateColCount, 250); // Debounce to prevent layout thrashing
-    };
-    
     updateColCount();
-    window.addEventListener('resize', handleResize);
+
+    mql768.addEventListener('change', updateColCount);
+    mql1024.addEventListener('change', updateColCount);
+    mql1280.addEventListener('change', updateColCount);
+
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', handleResize);
+      mql768.removeEventListener('change', updateColCount);
+      mql1024.removeEventListener('change', updateColCount);
+      mql1280.removeEventListener('change', updateColCount);
     };
   }, []);
 

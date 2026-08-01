@@ -265,6 +265,8 @@ export default function PromptCard({
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
+            wordBreak: 'break-all',
+            overflowWrap: 'anywhere',
             fontFamily: 'JetBrains Mono, monospace'
           }}>
             {promptItem.prompt}
