@@ -77,27 +77,6 @@ export default function App() {
     }
   };
 
-  const handleMoveBookmarksToVisualPerson = () => {
-    if (bookmarks.length === 0) return;
-    
-    if (!window.confirm(`총 ${bookmarks.length}개의 즐겨찾기 사진을 '📸 비주얼 인물' 테마로 일괄 이동하시겠습니까?\n\n이동 후 즐겨찾기는 모두 해제됩니다.`)) {
-      return;
-    }
-
-    const targetCategory = "📸 비주얼 인물";
-
-    bookmarks.forEach(id => {
-      updateStoredPrompt(id, { category: targetCategory });
-    });
-
-    setPrompts(prev => prev.map(p => 
-      bookmarks.includes(p.id) ? { ...p, category: targetCategory } : p
-    ));
-
-    setBookmarks([]);
-    alert('성공적으로 이동되었습니다!');
-  };
-
   // Compute category counts
   const categoryCounts = useMemo(() => {
     const counts = {};
@@ -191,29 +170,6 @@ export default function App() {
           />
 
           <div style={{ flex: 1 }}>
-            {activeCategory === 'Bookmarks' && bookmarks.length > 0 && (
-              <div style={{ padding: '1.5rem 1.5rem 0', display: 'flex', justifyContent: 'flex-end' }}>
-                <button 
-                  onClick={handleMoveBookmarksToVisualPerson}
-                  style={{ 
-                    background: 'var(--primary)', 
-                    color: 'white', 
-                    padding: '0.75rem 1.5rem', 
-                    borderRadius: 'var(--radius-full)',
-                    fontWeight: '600',
-                    border: 'none',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                  onMouseOut={(e) => e.currentTarget.style.transform = 'none'}
-                >
-                  ✨ 즐겨찾기 항목을 '비주얼 인물' 테마로 모두 이동하기
-                </button>
-              </div>
-            )}
-            
             {loading ? (
               <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
                 프롬프트 라이브러리를 불러오는 중...
