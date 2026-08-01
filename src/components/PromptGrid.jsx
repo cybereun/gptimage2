@@ -100,14 +100,14 @@ export default function PromptGrid({
       const currentWidth = window.innerWidth;
       
       // Ignore tiny width fluctuations (like scrollbar appearing/disappearing)
-      if (Math.abs(currentWidth - lastWidth) < 40 && currentWidth !== window.innerWidth) {
+      if (Math.abs(currentWidth - lastWidth) < 100 && currentWidth !== lastWidth) {
         return;
       }
 
       let newColCount = 4;
-      if (currentWidth <= 600) newColCount = 1;
-      else if (currentWidth <= 1000) newColCount = 2;
-      else if (currentWidth <= 1400) newColCount = 3;
+      if (currentWidth <= 768) newColCount = 1;
+      else if (currentWidth <= 1024) newColCount = 2;
+      else if (currentWidth <= 1280) newColCount = 3;
       
       setColCount(prev => {
         if (prev !== newColCount) return newColCount;
